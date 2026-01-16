@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart' show Alignment, Color, LinearGradient;
 
 part 'color_base.dart';
+part 'color_dark.dart';
+part 'color_light.dart';
 
 abstract mixin class AppColor {
   const AppColor();
@@ -16,4 +18,8 @@ abstract mixin class AppColor {
   AppColorBase get warning => const Color(0xFFF59E0B).base;
 
   AppColorBase get error => const Color(0xFFEF4444).base;
+
+  AppColorBase get text;
+
+  AppColorBase get background;
 }

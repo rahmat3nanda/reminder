@@ -8,11 +8,11 @@ class AppColorBase {
   final Color value;
 }
 
-extension _ColorAppwColorBase on Color {
+extension _ColorAppColorBase on Color {
   AppColorBase get base => AppColorBase(this);
 }
 
-extension AppwColorToolBase on AppColorBase {
+extension AppColorToolBase on AppColorBase {
   AppColorBase withOpacity(double opacity) =>
       AppColorBase(value.withValues(alpha: opacity));
 
