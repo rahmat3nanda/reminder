@@ -13,9 +13,9 @@ import 'package:reminder/core/themes/data/theme_local_datasource.dart'
     show ThemeLocalDataSource;
 import 'package:reminder/core/themes/domain/theme_mode_enum.dart'
     show AppThemeMode, AppThemeModeTools;
-import 'package:reminder/core/themes/presentation/theme_builder.dart'
-    show AppThemeBuilder;
-import 'package:reminder/features/alarm/alarm_page.dart' show AlarmPage;
+import 'package:reminder/core/themes/theme_builder.dart' show AppThemeBuilder;
+import 'package:reminder/features/alarm/presentation/pages/alarm_page.dart'
+    show AlarmPage;
 
 class App extends StatelessWidget {
   const App({super.key});
