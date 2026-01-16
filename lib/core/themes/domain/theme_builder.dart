@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart' show ThemeData;
 import 'package:google_fonts/google_fonts.dart' show GoogleFonts;
-import 'package:reminder/core/themes/theme_mode_enum.dart'
+import 'package:reminder/core/themes/domain/theme_mode_enum.dart'
     show AppThemeMode, AppThemeModeTools;
 
 class AppThemeBuilder {

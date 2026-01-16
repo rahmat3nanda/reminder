@@ -1,4 +1,5 @@
-import 'package:reminder/core/themes/theme_mode_enum.dart' show AppThemeMode;
+import 'package:reminder/core/themes/domain/theme_mode_enum.dart'
+    show AppThemeMode;
 
 abstract class IThemeLocalDataSource {
   const IThemeLocalDataSource();

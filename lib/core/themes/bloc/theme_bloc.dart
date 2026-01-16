@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart' show Equatable;
 import 'package:flutter_bloc/flutter_bloc.dart' show Bloc, Emitter;
 import 'package:reminder/core/themes/data/theme_local_datasource.dart'
     show ThemeLocalDataSource;
-import 'package:reminder/core/themes/theme_mode_enum.dart'
+import 'package:reminder/core/themes/domain/theme_mode_enum.dart'
     show AppThemeMode, AppThemeModeTools;
 
 part 'theme_event.dart';
