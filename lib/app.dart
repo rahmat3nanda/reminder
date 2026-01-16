@@ -11,20 +11,20 @@ import 'package:reminder/core/themes/data/theme.hive_key.dart'
     show ThemeHiveKey;
 import 'package:reminder/core/themes/data/theme_local_datasource.dart'
     show ThemeLocalDataSource;
-import 'package:reminder/core/themes/domain/theme_builder.dart'
-    show AppThemeBuilder;
 import 'package:reminder/core/themes/domain/theme_mode_enum.dart'
     show AppThemeMode, AppThemeModeTools;
-import 'package:reminder/features/alarm/alarm.page.dart' show AlarmPage;
+import 'package:reminder/core/themes/presentation/theme_builder.dart'
+    show AppThemeBuilder;
+import 'package:reminder/features/alarm/alarm_page.dart' show AlarmPage;
 
 class App extends StatelessWidget {
   const App({super.key});
 
   @override
   Widget build(_) => BlocProvider<ThemeBloc>(
-    create: (_) => ThemeBloc(
-      ThemeLocalDataSource(AppHiveBox<String>(ThemeHiveKey.box).box),
-    )..add(const LoadTheme()),
+    create: (_) =>
+        ThemeBloc(ThemeLocalDataSource(AppHiveBox(ThemeHiveKey.box).box))
+          ..add(const LoadTheme()),
     child: BlocBuilder<ThemeBloc, ThemeState>(
       builder: (_, ThemeState state) => AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle(
