@@ -10,9 +10,9 @@ import 'package:flutter/material.dart'
         TextStyle,
         Widget;
 import 'package:flutter_bloc/flutter_bloc.dart' show BlocBuilder, ReadContext;
-import 'package:reminder/core/themes/bloc/theme_bloc.dart'
+import 'package:reminder/cores/themes/bloc/theme_bloc.dart'
     show ThemeBloc, ThemeState, ToggleTheme;
-import 'package:reminder/core/themes/domain/theme_mode_enum.dart'
+import 'package:reminder/cores/themes/domain/theme_mode_enum.dart'
     show AppThemeModeTools;
 
 class AlarmPage extends StatelessWidget {

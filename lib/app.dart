@@ -2,18 +2,18 @@ import 'package:flutter/material.dart'
     show AnnotatedRegion, Colors, MaterialApp, StatelessWidget, Widget;
 import 'package:flutter/services.dart' show SystemUiOverlayStyle;
 import 'package:flutter_bloc/flutter_bloc.dart' show BlocBuilder, BlocProvider;
-import 'package:reminder/core/extensions/system_overlay.dart'
+import 'package:reminder/cores/extensions/system_overlay.dart'
     show AppSystemOverlayBrightness;
-import 'package:reminder/core/hive/hive_box_registry.dart' show AppHiveBox;
-import 'package:reminder/core/themes/bloc/theme_bloc.dart'
+import 'package:reminder/cores/hive/hive_box_registry.dart' show AppHiveBox;
+import 'package:reminder/cores/themes/bloc/theme_bloc.dart'
     show LoadTheme, ThemeBloc, ThemeState;
-import 'package:reminder/core/themes/data/theme.hive_key.dart'
+import 'package:reminder/cores/themes/data/theme.hive_key.dart'
     show ThemeHiveKey;
-import 'package:reminder/core/themes/data/theme_local_datasource.dart'
+import 'package:reminder/cores/themes/data/theme_local_datasource.dart'
     show ThemeLocalDataSource;
-import 'package:reminder/core/themes/domain/theme_mode_enum.dart'
+import 'package:reminder/cores/themes/domain/theme_mode_enum.dart'
     show AppThemeMode, AppThemeModeTools;
-import 'package:reminder/core/themes/theme_builder.dart' show AppThemeBuilder;
+import 'package:reminder/cores/themes/theme_builder.dart' show AppThemeBuilder;
 import 'package:reminder/features/alarm/presentation/pages/alarm_page.dart'
     show AlarmPage;
 

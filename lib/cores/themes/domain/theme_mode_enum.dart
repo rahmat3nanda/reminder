@@ -2,9 +2,9 @@ import 'dart:io' show Platform;
 import 'dart:ui' show Brightness;
 
 import 'package:flutter/material.dart' show ThemeMode, WidgetsBinding;
-import 'package:reminder/core/colors/color.dart'
+import 'package:reminder/cores/colors/color.dart'
     show AppColor, AppDarkColor, AppLightColor;
-import 'package:reminder/core/extensions/system_overlay.dart'
+import 'package:reminder/cores/extensions/system_overlay.dart'
     show AppSystemOverlay;
 
 enum AppThemeMode {

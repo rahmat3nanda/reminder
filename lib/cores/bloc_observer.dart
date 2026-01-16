@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart'
     show Bloc, BlocBase, BlocObserver, Transition;
-import 'package:reminder/core/logger.dart' show AppLogger;
+import 'package:reminder/cores/logger.dart' show AppLogger;
 
 class AppBlocObserver extends BlocObserver {
   const AppBlocObserver();

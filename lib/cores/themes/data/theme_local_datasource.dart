@@ -1,9 +1,9 @@
 import 'package:hive/hive.dart' show Box;
-import 'package:reminder/core/themes/data/theme.hive_key.dart'
+import 'package:reminder/cores/themes/data/theme.hive_key.dart'
     show ThemeHiveKey;
-import 'package:reminder/core/themes/data/theme_local_datasource_interface.dart'
+import 'package:reminder/cores/themes/data/theme_local_datasource_interface.dart'
     show IThemeLocalDataSource;
-import 'package:reminder/core/themes/domain/theme_mode_enum.dart'
+import 'package:reminder/cores/themes/domain/theme_mode_enum.dart'
     show AppThemeMode;
 
 class ThemeLocalDataSource implements IThemeLocalDataSource {

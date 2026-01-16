@@ -1,4 +1,4 @@
-import 'package:reminder/core/hive/hive_key.dart' show IHiveKey;
+import 'package:reminder/cores/hive/hive_key.dart' show IHiveKey;
 
 enum ThemeHiveKey with IHiveKey {
   mode('mode');
