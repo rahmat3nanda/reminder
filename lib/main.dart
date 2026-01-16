@@ -36,8 +36,8 @@ void main() {
       );
 
       Bloc.observer = const AppBlocObserver();
-      await HiveBoxRegistry.register(<AppHiveBox>[
-        AppHiveBox(ThemeHiveKey.box),
+      await HiveBoxRegistry.register(<AppHiveBox<dynamic>>[
+        AppHiveBox<String>(ThemeHiveKey.box),
       ]);
 
       runApp(const App());

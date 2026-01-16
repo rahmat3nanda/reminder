@@ -2,9 +2,9 @@ import 'package:flutter/material.dart'
     show AnnotatedRegion, Colors, MaterialApp, StatelessWidget, Widget;
 import 'package:flutter/services.dart' show SystemUiOverlayStyle;
 import 'package:flutter_bloc/flutter_bloc.dart' show BlocBuilder, BlocProvider;
-import 'package:hive/hive.dart' show Hive;
 import 'package:reminder/core/extensions/system_overlay.dart'
     show AppSystemOverlayBrightness;
+import 'package:reminder/core/hive/hive_box_registry.dart' show AppHiveBox;
 import 'package:reminder/core/themes/bloc/theme_bloc.dart'
     show LoadTheme, ThemeBloc, ThemeState;
 import 'package:reminder/core/themes/data/theme.hive_key.dart'
@@ -22,9 +22,9 @@ class App extends StatelessWidget {
 
   @override
   Widget build(_) => BlocProvider<ThemeBloc>(
-    create: (_) =>
-        ThemeBloc(ThemeLocalDataSource(Hive.box(ThemeHiveKey.box)))
-          ..add(const LoadTheme()),
+    create: (_) => ThemeBloc(
+      ThemeLocalDataSource(AppHiveBox<String>(ThemeHiveKey.box).box),
+    )..add(const LoadTheme()),
     child: BlocBuilder<ThemeBloc, ThemeState>(
       builder: (_, ThemeState state) => AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle(
