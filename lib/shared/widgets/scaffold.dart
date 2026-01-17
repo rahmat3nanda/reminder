@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart'
-    show Drawer, PreferredSizeWidget, Scaffold, StatelessWidget, Widget;
+    show
+        Drawer,
+        FloatingActionButtonLocation,
+        PreferredSizeWidget,
+        Scaffold,
+        StatelessWidget,
+        Widget;
 import 'package:flutter_bloc/flutter_bloc.dart' show BlocBuilder;
 import 'package:reminder/cores/themes/bloc/theme_bloc.dart'
     show ThemeBloc, ThemeState;
@@ -13,6 +19,8 @@ class RemUIScaffold extends StatelessWidget {
     this.bottomNavigationBar,
     this.drawer,
     this.background,
+    this.floatingActionButton,
+    this.floatingActionButtonLocation,
     super.key,
   });
 
@@ -23,6 +31,8 @@ class RemUIScaffold extends StatelessWidget {
   final Widget? bottomNavigationBar;
   final Drawer? drawer;
   final Widget? background;
+  final Widget? floatingActionButton;
+  final FloatingActionButtonLocation? floatingActionButtonLocation;
 
   @override
   Widget build(_) => BlocBuilder<ThemeBloc, ThemeState>(
@@ -35,6 +45,8 @@ class RemUIScaffold extends StatelessWidget {
       extendBody: extendBody,
       body: body,
       bottomNavigationBar: bottomNavigationBar,
+      floatingActionButton: floatingActionButton,
+      floatingActionButtonLocation: floatingActionButtonLocation,
     ),
   );
 }

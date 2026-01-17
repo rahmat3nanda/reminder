@@ -3,7 +3,10 @@ import 'package:flutter/material.dart'
         BuildContext,
         Center,
         Container,
+        FloatingActionButton,
         GestureDetector,
+        Icon,
+        Icons,
         InkWell,
         StatelessWidget,
         Text,
@@ -34,6 +37,11 @@ class AlarmPage extends StatelessWidget {
             ),
           ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        backgroundColor: state.color.primary.value,
+        child: Icon(Icons.add, color: state.color.text.value),
       ),
       body: Center(
         child: InkWell(
