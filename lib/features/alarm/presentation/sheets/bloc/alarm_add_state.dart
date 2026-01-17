@@ -22,6 +22,8 @@ class AlarmAddState extends Equatable {
 
   int get amPmIndex => hour < 12 ? 0 : 1;
 
+  AlarmTime get alarmTime => AlarmTime(hour: hour, minute: minute);
+
   AlarmAddState copyWith({int? hour, int? minute, bool? use24Format}) =>
       AlarmAddState(
         hour: hour ?? this.hour,

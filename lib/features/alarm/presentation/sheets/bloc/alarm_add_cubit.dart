@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart' show Equatable;
 import 'package:flutter_bloc/flutter_bloc.dart' show Cubit;
+import 'package:reminder/features/alarm/domain/entities/alarm_time.dart'
+    show AlarmTime;
 
 part 'alarm_add_state.dart';
 
