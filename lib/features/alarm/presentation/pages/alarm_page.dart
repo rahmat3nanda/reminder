@@ -16,6 +16,8 @@ import 'package:flutter_bloc/flutter_bloc.dart' show BlocBuilder, ReadContext;
 import 'package:reminder/cores/navigate.dart' show AppNavigate;
 import 'package:reminder/cores/themes/bloc/theme_bloc.dart'
     show ThemeBloc, ThemeState, ToggleTheme;
+import 'package:reminder/features/alarm/presentation/sheets/alarm_add_sheet.dart'
+    show AlarmAddSheet;
 import 'package:reminder/features/setting/presentation/pages/setting_page.dart'
     show SettingPage;
 import 'package:reminder/shared/widgets.dart'
@@ -39,9 +41,9 @@ class AlarmPage extends StatelessWidget {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () => AlarmAddSheet.show(context),
         backgroundColor: state.color.primary.value,
-        child: Icon(Icons.add, color: state.color.text.value),
+        child: Icon(Icons.add, color: state.color.primarySoft.value),
       ),
       body: Center(
         child: InkWell(
