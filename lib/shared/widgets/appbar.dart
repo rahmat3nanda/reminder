@@ -19,12 +19,14 @@ class RemUIAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.height = kToolbarHeight,
     this.backgroundColor,
     this.trailing = const <Widget>[],
+    this.centerTitle = true,
   });
 
   final Widget child;
   final double height;
   final AppColorBase? backgroundColor;
   final List<Widget> trailing;
+  final bool centerTitle;
 
   @override
   Widget build(_) => BlocBuilder<ThemeBloc, ThemeState>(
@@ -32,6 +34,7 @@ class RemUIAppBar extends StatelessWidget implements PreferredSizeWidget {
       title: child,
       backgroundColor: backgroundColor?.value ?? s.color.background.value,
       actions: trailing,
+      centerTitle: centerTitle,
     ),
   );
 

@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart' show Alignment, Color, LinearGradient;
+import 'package:flutter/material.dart'
+    show Alignment, Color, Colors, LinearGradient;
 
 part 'color_base.dart';
 part 'color_dark.dart';
@@ -22,4 +23,6 @@ abstract mixin class AppColor {
   AppColorBase get text;
 
   AppColorBase get background;
+
+  AppColorBase get grey => Colors.grey.base;
 }
