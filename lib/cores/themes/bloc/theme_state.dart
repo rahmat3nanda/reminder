@@ -5,6 +5,8 @@ class ThemeState extends Equatable {
 
   final AppThemeMode mode;
 
+  AppColor get color => mode.color;
+
   @override
   List<Object?> get props => <Object?>[mode];
 }

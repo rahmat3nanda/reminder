@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart' show Equatable;
 import 'package:flutter_bloc/flutter_bloc.dart' show Bloc, Emitter;
+import 'package:reminder/cores/colors/color.dart' show AppColor;
 import 'package:reminder/cores/themes/data/theme_local_datasource.dart'
     show ThemeLocalDataSource;
 import 'package:reminder/cores/themes/domain/theme_mode_enum.dart'
