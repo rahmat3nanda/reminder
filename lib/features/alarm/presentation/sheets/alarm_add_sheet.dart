@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart' show Alignment, CupertinoPicker;
 import 'package:flutter/material.dart'
     show
         Align,
@@ -11,6 +12,7 @@ import 'package:flutter/material.dart'
         Container,
         Divider,
         Expanded,
+        FixedExtentScrollController,
         Flexible,
         GestureDetector,
         Icon,
@@ -24,7 +26,6 @@ import 'package:flutter/material.dart'
         SizedBox,
         Stack,
         StatelessWidget,
-        TextAlign,
         VoidCallback,
         Widget,
         kToolbarHeight,
@@ -33,21 +34,22 @@ import 'package:flutter_bloc/flutter_bloc.dart'
     show BlocBuilder, BlocProvider, ReadContext;
 import 'package:reminder/cores/colors/color.dart' show AppColor, AppColorBase;
 import 'package:reminder/cores/themes/bloc/theme_bloc.dart' show ThemeBloc;
+import 'package:reminder/features/alarm/domain/entities/alarm_time.dart'
+    show AlarmTime;
 import 'package:reminder/features/alarm/presentation/sheets/bloc/alarm_add_cubit.dart'
     show AlarmAddCubit, AlarmAddState;
 import 'package:reminder/shared/widgets.dart' show RemUIText;
-import 'package:wheel_picker/wheel_picker.dart'
-    show WheelPicker, WheelPickerStyle;
 
 class AlarmAddSheet extends StatelessWidget {
   const AlarmAddSheet({super.key});
 
-  static Future<void> show(BuildContext context) => showModalBottomSheet<void>(
-    context: context,
-    isScrollControlled: true,
-    builder: (BuildContext context) => const AlarmAddSheet(),
-    backgroundColor: Colors.transparent,
-  );
+  static Future<AlarmTime?> show(BuildContext context) =>
+      showModalBottomSheet<AlarmTime?>(
+        context: context,
+        isScrollControlled: true,
+        builder: (BuildContext context) => const AlarmAddSheet(),
+        backgroundColor: Colors.transparent,
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -84,11 +86,13 @@ class AlarmAddSheet extends StatelessWidget {
                     fontSize: 16,
                   ),
                 ),
-                _actionButton(
-                  icon: Icons.check,
-                  onTap: () => Navigator.pop(context),
-                  backgroundColor: color.primary,
-                  iconColor: color.primarySoft,
+                BlocBuilder<AlarmAddCubit, AlarmAddState>(
+                  builder: (_, AlarmAddState state) => _actionButton(
+                    icon: Icons.check,
+                    onTap: () => Navigator.pop(context, state.alarmTime),
+                    backgroundColor: color.primary,
+                    iconColor: color.primarySoft,
+                  ),
                 ),
               ],
             ),
@@ -100,13 +104,14 @@ class AlarmAddSheet extends StatelessWidget {
                   fit: .expand,
                   children: <Widget>[
                     Row(
-                      spacing: 12,
+                      spacing: 8,
                       children: <Widget>[
                         _picker(
                           color: color,
-                          textAlign: .right,
                           itemCount: use24Format ? 24 : 12,
                           initialIndex: state.hourPickerIndex,
+                          alignment: .centerRight,
+                          offAxisFraction: -.5,
                           labelBuilder: (int i) => (use24Format ? i : i + 1)
                               .toString()
                               .padLeft(2, '0'),
@@ -116,7 +121,8 @@ class AlarmAddSheet extends StatelessWidget {
                         ),
                         _picker(
                           color: color,
-                          textAlign: .center,
+                          alignment: use24Format ? .centerLeft : .center,
+                          offAxisFraction: use24Format ? .5 : 0,
                           itemCount: 60,
                           initialIndex: state.minutePickerIndex,
                           labelBuilder: (int i) => i.toString().padLeft(2, '0'),
@@ -125,7 +131,8 @@ class AlarmAddSheet extends StatelessWidget {
                         if (!use24Format)
                           _picker(
                             color: color,
-                            textAlign: .left,
+                            alignment: .centerLeft,
+                            offAxisFraction: .5,
                             itemCount: 2,
                             initialIndex: state.amPmIndex,
                             labelBuilder: (int i) => <String>['AM', 'PM'][i],
@@ -193,40 +200,52 @@ class AlarmAddSheet extends StatelessWidget {
     ),
   );
 
-  Widget _picker({
-    required AppColor color,
-    required TextAlign textAlign,
-    required int itemCount,
-    required String Function(int index) labelBuilder,
-    required void Function(int index) onChanged,
-    int? initialIndex,
-    bool looping = true,
-  }) => Flexible(
-    child: Container(
-      constraints: const BoxConstraints(minWidth: 32),
-      child: WheelPicker(
-        builder: (_, int i) => RemUIText(
-          labelBuilder(i),
-          color: color.grey,
-          fontSize: 18,
-          fontWeight: .w600,
-          textAlign: textAlign,
-        ),
-        itemCount: itemCount,
-        initialIndex: initialIndex,
-        selectedIndexColor: color.text.value,
-        looping: looping,
-        onIndexChanged: (int i, _) => onChanged(i),
-        style: const WheelPickerStyle(itemExtent: 22, surroundingOpacity: .8),
-      ),
-    ),
-  );
-
   Widget _field({required String title, Widget? value}) => Row(
     spacing: 12,
     children: <Widget>[
       RemUIText(title, fontSize: 16),
       Expanded(child: value ?? const SizedBox.shrink()),
     ],
+  );
+
+  Widget _picker({
+    required AppColor color,
+    required int itemCount,
+    required String Function(int index) labelBuilder,
+    required void Function(int index) onChanged,
+    Alignment? alignment,
+    int initialIndex = 0,
+    double offAxisFraction = 0,
+    bool looping = true,
+  }) => Flexible(
+    child: Container(
+      constraints: const BoxConstraints(minWidth: 24),
+      child: CupertinoPicker(
+        scrollController: FixedExtentScrollController(
+          initialItem: initialIndex,
+        ),
+        itemExtent: 22,
+        magnification: 1.05,
+        squeeze: .8,
+        useMagnifier: true,
+        looping: looping,
+        offAxisFraction: offAxisFraction,
+        onSelectedItemChanged: onChanged,
+        selectionOverlay: const SizedBox.shrink(),
+        children: List<Widget>.generate(
+          itemCount,
+          (int i) => Align(
+            alignment: alignment ?? Alignment.center,
+            child: RemUIText(
+              labelBuilder(i),
+              color: color.text,
+              fontSize: 18,
+              fontWeight: .w600,
+              textAlign: .right,
+            ),
+          ),
+        ),
+      ),
+    ),
   );
 }
