@@ -25,4 +25,6 @@ abstract mixin class AppColor {
   AppColorBase get background;
 
   AppColorBase get grey => Colors.grey.base;
+
+  AppColorBase get card;
 }

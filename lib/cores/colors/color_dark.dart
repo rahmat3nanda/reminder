@@ -8,4 +8,7 @@ class AppDarkColor with AppColor {
 
   @override
   AppColorBase get text => const Color(0xFFFFFFFF).base;
+
+  @override
+  AppColorBase get card => const Color(0xFF232323).base;
 }
