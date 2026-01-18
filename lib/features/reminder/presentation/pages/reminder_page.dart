@@ -25,8 +25,12 @@ import 'package:reminder/features/reminder/data/datasources/reminder_local_datas
     show ReminderLocalDatasource;
 import 'package:reminder/features/reminder/data/reminder.hive_key.dart'
     show ReminderHiveKey;
+import 'package:reminder/features/reminder/data/services/local_notification_service.dart'
+    show LocalNotificationService;
 import 'package:reminder/features/reminder/domain/entities/reminder.dart'
     show Reminder;
+import 'package:reminder/features/reminder/domain/usecases/reminder_local_scheduler.dart'
+    show ReminderLocalScheduler;
 import 'package:reminder/features/reminder/presentation/bloc/reminder_bloc.dart'
     show
         AddReminder,
@@ -51,9 +55,12 @@ class ReminderPage extends StatelessWidget {
 
   @override
   Widget build(_) => BlocProvider<ReminderBloc>(
-    create: (_) =>
-        ReminderBloc(ReminderLocalDatasource(ReminderHiveKey.box))
-          ..add(const LoadReminders()),
+    create: (_) => ReminderBloc(
+      source: ReminderLocalDatasource(ReminderHiveKey.box),
+      scheduler: ReminderLocalScheduler(
+        LocalNotificationService.instance.plugin,
+      ),
+    )..add(const LoadReminders()),
     child: BlocBuilder<ThemeBloc, ThemeState>(
       builder: (BuildContext context, ThemeState state) => RemUIScaffold(
         appBar: RemUIAppBar(
