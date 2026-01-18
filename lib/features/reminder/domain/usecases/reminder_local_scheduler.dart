@@ -8,10 +8,13 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart'
         FlutterLocalNotificationsPlugin,
         Importance,
         NotificationDetails,
-        Priority;
+        Priority,
+        RawResourceAndroidNotificationSound;
 import 'package:reminder/features/reminder/domain/entities/reminder.dart'
     show Reminder;
-import 'package:reminder/features/reminder/domain/enums/day.dart';
+import 'package:reminder/features/reminder/domain/enums/day.dart' show Day;
+import 'package:reminder/features/reminder/domain/enums/sound.dart'
+    show Sound, SoundResolver;
 import 'package:reminder/features/reminder/domain/extensions/reminder_notification_scheduler.dart'
     show ReminderNotificationScheduler;
 import 'package:reminder/features/reminder/domain/usecases/reminder_scheduler.dart'
@@ -82,6 +85,9 @@ extension _ReminderLocalSchedulerExtension on ReminderLocalScheduler {
       'Reminders',
       importance: Importance.max,
       priority: Priority.high,
+      sound: reminder.sound == Sound.none
+          ? null
+          : RawResourceAndroidNotificationSound(reminder.sound.android),
       actions: <AndroidNotificationAction>[
         if (reminder.snoozeMinutes != null)
           const AndroidNotificationAction(
@@ -91,6 +97,8 @@ extension _ReminderLocalSchedulerExtension on ReminderLocalScheduler {
           ),
       ],
     ),
-    iOS: const DarwinNotificationDetails(),
+    iOS: DarwinNotificationDetails(
+      sound: reminder.sound == Sound.none ? null : reminder.sound.ios,
+    ),
   );
 }
