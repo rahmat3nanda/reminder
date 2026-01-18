@@ -9,9 +9,12 @@ import 'package:flutter/material.dart'
         GestureDetector,
         Icon,
         Icons,
+        InkWell,
         ListView,
+        Padding,
         Row,
         StatelessWidget,
+        Switch,
         Widget;
 import 'package:flutter_bloc/flutter_bloc.dart'
     show BlocBuilder, BlocProvider, ReadContext;
@@ -25,7 +28,12 @@ import 'package:reminder/features/reminder/data/reminder.hive_key.dart'
 import 'package:reminder/features/reminder/domain/entities/reminder.dart'
     show Reminder;
 import 'package:reminder/features/reminder/presentation/bloc/reminder_bloc.dart'
-    show AddReminder, LoadReminders, ReminderBloc, ReminderState;
+    show
+        AddReminder,
+        LoadReminders,
+        ReminderBloc,
+        ReminderState,
+        UpdateReminder;
 import 'package:reminder/features/reminder/presentation/extensions/day_string.dart'
     show DaysString;
 import 'package:reminder/features/reminder/presentation/extensions/reminder_time_string.dart'
@@ -76,32 +84,51 @@ class ReminderPage extends StatelessWidget {
             }
 
             return ListView.separated(
-              padding: const .symmetric(vertical: 12, horizontal: 16),
               itemCount: state.data.length,
-              separatorBuilder: (_, _) => const Divider(),
+              separatorBuilder: (_, _) => const Padding(
+                padding: .symmetric(horizontal: 16),
+                child: Divider(height: 1),
+              ),
               itemBuilder: (_, int i) {
                 final Reminder item = state.data[i];
-                return Row(
-                  spacing: 12,
-                  children: <Widget>[
-                    Expanded(
-                      child: Column(
-                        mainAxisSize: .min,
-                        crossAxisAlignment: .start,
-                        spacing: 4,
-                        children: <Widget>[
-                          RemUIText(item.time.display(context)),
-                          RemUIText(
-                            <String>[
-                              item.label ?? 'Reminder',
-                              if (item.repeatDays.isNotEmpty)
-                                'every ${item.repeatDays.display}',
-                            ].join(', '),
+                return InkWell(
+                  onTap: () {},
+                  child: Padding(
+                    padding: const .symmetric(vertical: 12, horizontal: 16),
+                    child: Row(
+                      spacing: 12,
+                      children: <Widget>[
+                        Expanded(
+                          child: Column(
+                            mainAxisSize: .min,
+                            crossAxisAlignment: .start,
+                            spacing: 6,
+                            children: <Widget>[
+                              RemUIText(
+                                item.time.display(context),
+                                fontSize: 32,
+                              ),
+                              RemUIText(
+                                <String>[
+                                  item.label ?? 'Reminder',
+                                  if (item.repeatDays.isNotEmpty)
+                                    'every ${item.repeatDays.display}',
+                                ].join(', '),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
+                        ),
+                        Switch(
+                          value: item.enabled,
+                          onChanged: (_) => context.read<ReminderBloc>().add(
+                            UpdateReminder(
+                              item.copyWith(enabled: !item.enabled),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 );
               },
             );

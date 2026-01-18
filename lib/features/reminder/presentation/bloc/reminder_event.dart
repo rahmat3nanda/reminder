@@ -19,3 +19,21 @@ class AddReminder extends ReminderEvent {
   @override
   List<Object?> get props => <Object?>[item];
 }
+
+class UpdateReminder extends ReminderEvent {
+  const UpdateReminder(this.item);
+
+  final Reminder item;
+
+  @override
+  List<Object?> get props => <Object?>[item];
+}
+
+class DeleteReminder extends ReminderEvent {
+  const DeleteReminder(this.item);
+
+  final Reminder item;
+
+  @override
+  List<Object?> get props => <Object?>[item];
+}
