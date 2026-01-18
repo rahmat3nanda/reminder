@@ -6,5 +6,9 @@ abstract class ReminderDatasource {
 
   Future<List<Reminder>?> get();
 
-  Future<int> save(Reminder item);
+  Future<void> save(Reminder item);
+
+  Future<void> update(Reminder item);
+
+  Future<void> delete(String id);
 }

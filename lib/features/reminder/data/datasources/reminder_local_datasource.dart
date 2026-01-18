@@ -16,5 +16,13 @@ class ReminderLocalDatasource implements ReminderDatasource {
       box.values.map((ReminderModel e) => e.toEntity()).toList();
 
   @override
-  Future<int> save(Reminder item) => box.add(ReminderModel.fromEntity(item));
+  Future<void> save(Reminder item) =>
+      box.put(item.id, ReminderModel.fromEntity(item));
+
+  @override
+  Future<void> update(Reminder item) =>
+      box.put(item.id, ReminderModel.fromEntity(item));
+
+  @override
+  Future<void> delete(String id) => box.delete(id);
 }
