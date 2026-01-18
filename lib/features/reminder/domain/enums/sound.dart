@@ -8,7 +8,12 @@ enum Sound {
   classic,
   funny,
   incoming,
-  ticking,
+  ticking;
+
+  static Sound fromString(String value) => Sound.values.firstWhere(
+    (Sound day) => day.name == value,
+    orElse: () => Sound.none,
+  );
 }
 
 extension SoundResolver on Sound {

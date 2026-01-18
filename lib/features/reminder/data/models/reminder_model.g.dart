@@ -20,17 +20,18 @@ class ReminderModelAdapter extends TypeAdapter<ReminderModel> {
       id: fields[0] as String,
       hour: fields[1] as int,
       minute: fields[2] as int,
+      sound: fields[4] as String,
       label: fields[3] as String?,
-      repeatDays: (fields[4] as List<dynamic>).cast<int>(),
-      snoozeMinutes: fields[5] as int?,
-      enabled: fields[6] as bool,
+      repeatDays: (fields[5] as List<dynamic>).cast<int>(),
+      snoozeMinutes: fields[6] as int?,
+      enabled: fields[7] as bool,
     );
   }
 
   @override
   void write(BinaryWriter writer, ReminderModel obj) {
     writer
-      ..writeByte(7)
+      ..writeByte(8)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -40,10 +41,12 @@ class ReminderModelAdapter extends TypeAdapter<ReminderModel> {
       ..writeByte(3)
       ..write(obj.label)
       ..writeByte(4)
-      ..write(obj.repeatDays)
+      ..write(obj.sound)
       ..writeByte(5)
-      ..write(obj.snoozeMinutes)
+      ..write(obj.repeatDays)
       ..writeByte(6)
+      ..write(obj.snoozeMinutes)
+      ..writeByte(7)
       ..write(obj.enabled);
   }
 
