@@ -7,7 +7,7 @@ part 'alarm_event.dart';
 part 'alarm_state.dart';
 
 class AlarmBloc extends Bloc<AlarmEvent, AlarmState> {
-  AlarmBloc(this.source) : super(const AlarmState(data: <Alarm>[])) {
+  AlarmBloc(this.source) : super(AlarmState(data: const <Alarm>[])) {
     on<LoadAlarms>(_onLoad);
     on<AddAlarm>(_onAdd);
   }

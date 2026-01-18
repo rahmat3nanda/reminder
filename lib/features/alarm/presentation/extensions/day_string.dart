@@ -1,6 +1,6 @@
 import 'package:reminder/features/alarm/domain/enums/day.dart' show Day;
 
-extension DayExtension on Day {
+extension DayString on Day {
   String get name => switch (this) {
     Day.monday => 'Monday',
     Day.tuesday => 'Tuesday',
