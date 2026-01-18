@@ -1,5 +1,5 @@
 import 'package:hive/hive.dart' show Box, Hive;
-import 'package:reminder/features/reminder/data/datasources/reminder_datasource_interface.dart'
+import 'package:reminder/features/reminder/data/datasources/reminder_datasource.dart'
     show ReminderDatasource;
 import 'package:reminder/features/reminder/data/models/reminder_model.dart'
     show ReminderModel;

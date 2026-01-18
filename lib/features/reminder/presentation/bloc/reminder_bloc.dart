@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart' show Equatable;
 import 'package:flutter_bloc/flutter_bloc.dart' show Bloc, Emitter;
-import 'package:reminder/features/reminder/data/datasources/reminder_datasource_interface.dart';
+import 'package:reminder/features/reminder/data/datasources/reminder_datasource.dart';
 import 'package:reminder/features/reminder/domain/entities/reminder.dart'
     show Reminder;
 
