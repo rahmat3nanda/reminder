@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart' show Equatable;
 import 'package:flutter_bloc/flutter_bloc.dart' show Cubit;
 import 'package:reminder/features/reminder/domain/entities/reminder_time.dart'
     show ReminderTime;
+import 'package:reminder/features/reminder/domain/enums/day.dart' show Day;
 
 part 'reminder_add_state.dart';
 
@@ -12,6 +13,10 @@ class ReminderAddCubit extends Cubit<ReminderAddState> {
           hour: DateTime.now().hour,
           minute: DateTime.now().minute,
           use24Format: use24Format,
+          repeatDays: const <Day>[],
+          label: null,
+          snoozeMinutes: null,
+          enabled: true,
         ),
       );
 

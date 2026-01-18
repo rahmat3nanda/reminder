@@ -5,11 +5,19 @@ class ReminderAddState extends Equatable {
     required this.hour,
     required this.minute,
     required this.use24Format,
+    required this.repeatDays,
+    required this.label,
+    required this.snoozeMinutes,
+    required this.enabled,
   });
 
   final int hour;
   final int minute;
   final bool use24Format;
+  final List<Day> repeatDays;
+  final String? label;
+  final int? snoozeMinutes;
+  final bool enabled;
 
   int get hourPickerIndex {
     if (use24Format) return hour;
@@ -24,13 +32,32 @@ class ReminderAddState extends Equatable {
 
   ReminderTime get reminderTime => ReminderTime(hour: hour, minute: minute);
 
-  ReminderAddState copyWith({int? hour, int? minute, bool? use24Format}) =>
-      ReminderAddState(
-        hour: hour ?? this.hour,
-        minute: minute ?? this.minute,
-        use24Format: use24Format ?? this.use24Format,
-      );
+  ReminderAddState copyWith({
+    int? hour,
+    int? minute,
+    bool? use24Format,
+    List<Day>? repeatDays,
+    String? label,
+    int? snoozeMinutes,
+    bool? enabled,
+  }) => ReminderAddState(
+    hour: hour ?? this.hour,
+    minute: minute ?? this.minute,
+    use24Format: use24Format ?? this.use24Format,
+    repeatDays: repeatDays ?? this.repeatDays,
+    label: label ?? this.label,
+    snoozeMinutes: snoozeMinutes ?? this.snoozeMinutes,
+    enabled: enabled ?? this.enabled,
+  );
 
   @override
-  List<Object> get props => <Object>[hour, minute, use24Format];
+  List<Object?> get props => <Object?>[
+    hour,
+    minute,
+    use24Format,
+    repeatDays,
+    label,
+    snoozeMinutes,
+    enabled,
+  ];
 }

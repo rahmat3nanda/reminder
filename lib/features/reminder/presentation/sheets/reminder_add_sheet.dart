@@ -19,6 +19,7 @@ import 'package:flutter/material.dart'
         IconData,
         Icons,
         IgnorePointer,
+        InkWell,
         ListView,
         MediaQuery,
         Navigator,
@@ -36,6 +37,8 @@ import 'package:reminder/cores/colors/color.dart' show AppColor, AppColorBase;
 import 'package:reminder/cores/themes/bloc/theme_bloc.dart' show ThemeBloc;
 import 'package:reminder/features/reminder/domain/entities/reminder_time.dart'
     show ReminderTime;
+import 'package:reminder/features/reminder/presentation/extensions/day_string.dart'
+    show DaysString;
 import 'package:reminder/features/reminder/presentation/sheets/bloc/reminder_add_cubit.dart'
     show ReminderAddCubit, ReminderAddState;
 import 'package:reminder/shared/widgets.dart' show RemUIText;
@@ -171,19 +174,25 @@ class ReminderAddSheet extends StatelessWidget {
                 color: color.greyS3A5.value,
                 borderRadius: .circular(12),
               ),
-              child: Column(
-                mainAxisSize: .min,
-                children: <Widget>[
-                  _field(title: 'Repeat'),
-                  Divider(color: color.grey.value.withValues(alpha: .2)),
-                  _field(title: 'Label'),
-                  Divider(color: color.grey.value.withValues(alpha: .2)),
-                  _field(title: 'Sound'),
-                  Divider(color: color.grey.value.withValues(alpha: .2)),
-                  _field(title: 'Snooze'),
-                  Divider(color: color.grey.value.withValues(alpha: .2)),
-                  _field(title: 'Snooze Duration'),
-                ],
+              child: BlocBuilder<ReminderAddCubit, ReminderAddState>(
+                builder: (_, s) => Column(
+                  mainAxisSize: .min,
+                  children: <Widget>[
+                    _field(
+                      title: 'Repeat',
+                      value: RemUIText(s.repeatDays.display, textAlign: .right),
+                      onTap: () {},
+                    ),
+                    Divider(color: color.grey.value.withValues(alpha: .2)),
+                    _field(title: 'Label'),
+                    Divider(color: color.grey.value.withValues(alpha: .2)),
+                    // _field(title: 'Sound'),
+                    // Divider(color: color.grey.value.withValues(alpha: .2)),
+                    _field(title: 'Snooze'),
+                    Divider(color: color.grey.value.withValues(alpha: .2)),
+                    _field(title: 'Snooze Duration'),
+                  ],
+                ),
               ),
             ),
           ],
@@ -207,13 +216,17 @@ class ReminderAddSheet extends StatelessWidget {
     ),
   );
 
-  Widget _field({required String title, Widget? value}) => Row(
-    spacing: 12,
-    children: <Widget>[
-      RemUIText(title, fontSize: 16),
-      Expanded(child: value ?? const SizedBox.shrink()),
-    ],
-  );
+  Widget _field({required String title, Widget? value, VoidCallback? onTap}) =>
+      InkWell(
+        onTap: onTap,
+        child: Row(
+          spacing: 12,
+          children: <Widget>[
+            RemUIText(title, fontSize: 16),
+            Expanded(child: value ?? const SizedBox.shrink()),
+          ],
+        ),
+      );
 
   Widget _picker({
     required AppColor color,
