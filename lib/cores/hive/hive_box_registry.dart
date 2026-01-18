@@ -1,29 +1,40 @@
-import 'package:hive/hive.dart' show Box, Hive;
+import 'package:hive/hive.dart' show Box, Hive, LazyBox, TypeAdapter;
 import 'package:hive_flutter/hive_flutter.dart' show HiveX;
 
-class HiveBoxRegistry {
-  const HiveBoxRegistry();
+bool _hasInit = false;
 
-  static Future<void> register(List<AppHiveBox> boxes) async {
-    await Hive.initFlutter();
-
-    await Future.wait(
-      boxes.map((AppHiveBox e) {
-        if (Hive.isBoxOpen(e.name)) {
-          return Future<void>.value();
-        }
-
-        return e.lazy ? Hive.openLazyBox(e.name) : Hive.openBox(e.name);
-      }),
-    );
-  }
-}
-
-class AppHiveBox {
+class AppHiveBox<T> {
   const AppHiveBox(this.name, {this.lazy = false});
 
   final String name;
   final bool lazy;
 
-  Box<dynamic> get box => Hive.box(name);
+  static Future<void> create<T>(
+    String name, {
+    bool lazy = false,
+    TypeAdapter<T>? adapter,
+  }) async {
+    if (!_hasInit) {
+      await Hive.initFlutter();
+      _hasInit = true;
+    }
+
+    if (adapter != null) {
+      Hive.registerAdapter<T>(adapter);
+    }
+
+    if (Hive.isBoxOpen(name)) {
+      return Future<void>.value();
+    }
+
+    if (lazy) {
+      await Hive.openLazyBox<T>(name);
+    } else {
+      await Hive.openBox<T>(name);
+    }
+  }
+
+  Box<T> get box => Hive.box<T>(name);
+
+  LazyBox<T> get lazyBox => Hive.lazyBox<T>(name);
 }
