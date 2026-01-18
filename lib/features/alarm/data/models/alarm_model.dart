@@ -9,40 +9,52 @@ part 'alarm_model.g.dart';
 @HiveType(typeId: 1)
 class AlarmModel {
   const AlarmModel({
+    required this.id,
     required this.hour,
     required this.minute,
     this.label,
     this.repeatDays = const <int>[],
     this.snoozeMinutes,
+    this.enabled = true,
   });
 
   factory AlarmModel.fromEntity(Alarm alarm) => AlarmModel(
+    id: alarm.id,
     hour: alarm.time.hour,
     minute: alarm.time.minute,
     label: alarm.label,
     repeatDays: alarm.repeatDays.map((Day e) => e.value).toList(),
     snoozeMinutes: alarm.snoozeMinutes,
+    enabled: alarm.enabled,
   );
 
   @HiveField(0)
-  final int hour;
+  final String id;
 
   @HiveField(1)
-  final int minute;
+  final int hour;
 
   @HiveField(2)
-  final String? label;
+  final int minute;
 
   @HiveField(3)
-  final List<int> repeatDays;
+  final String? label;
 
   @HiveField(4)
+  final List<int> repeatDays;
+
+  @HiveField(5)
   final int? snoozeMinutes;
 
+  @HiveField(6)
+  final bool enabled;
+
   Alarm toEntity() => Alarm(
+    id: id,
     time: AlarmTime(hour: hour, minute: minute),
     label: label,
     repeatDays: repeatDays.map(Day.fromInt).toList(),
     snoozeMinutes: snoozeMinutes,
+    enabled: enabled,
   );
 }

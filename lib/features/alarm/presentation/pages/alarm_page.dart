@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart'
     show
         BuildContext,
+        Center,
+        Column,
         Divider,
+        Expanded,
         FloatingActionButton,
         GestureDetector,
         Icon,
         Icons,
         ListView,
+        Row,
         StatelessWidget,
         Widget;
 import 'package:flutter_bloc/flutter_bloc.dart'
@@ -23,6 +27,8 @@ import 'package:reminder/features/alarm/domain/entities/alarm_time.dart'
     show AlarmTime;
 import 'package:reminder/features/alarm/presentation/bloc/alarm_bloc.dart'
     show AddAlarm, AlarmBloc, AlarmState, LoadAlarms;
+import 'package:reminder/features/alarm/presentation/extensions/alarm_time_string.dart'
+    show AlarmTimeString;
 import 'package:reminder/features/alarm/presentation/sheets/alarm_add_sheet.dart'
     show AlarmAddSheet;
 import 'package:reminder/features/setting/presentation/pages/setting_page.dart'
@@ -50,26 +56,49 @@ class AlarmPage extends StatelessWidget {
               ),
             ),
           ],
+          child: const RemUIText('Alarms', fontWeight: .w600, fontSize: 18),
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
             final AlarmBloc bloc = context.read<AlarmBloc>();
             final AlarmTime? time = await AlarmAddSheet.show(context);
             if (time == null) return;
-            bloc.add(AddAlarm(Alarm(time: time)));
+            bloc.add(AddAlarm(Alarm.create(time: time)));
           },
           backgroundColor: state.color.primary.value,
           child: Icon(Icons.add, color: state.color.primarySoft.value),
         ),
         body: BlocBuilder<AlarmBloc, AlarmState>(
-          builder: (_, AlarmState state) => ListView.separated(
-            itemCount: state.data.length,
-            separatorBuilder: (_, _) => const Divider(),
-            itemBuilder: (_, int i) {
-              final Alarm item = state.data[i];
-              return RemUIText(item.time.hour.toString());
-            },
-          ),
+          builder: (_, AlarmState state) {
+            if (state.data.isEmpty) {
+              return const Center(child: RemUIText('No Alarm'));
+            }
+
+            return ListView.separated(
+              padding: const .symmetric(vertical: 12, horizontal: 16),
+              itemCount: state.data.length,
+              separatorBuilder: (_, _) => const Divider(),
+              itemBuilder: (_, int i) {
+                final Alarm item = state.data[i];
+                return Row(
+                  spacing: 12,
+                  children: <Widget>[
+                    Expanded(
+                      child: Column(
+                        mainAxisSize: .min,
+                        crossAxisAlignment: .start,
+                        spacing: 4,
+                        children: <Widget>[
+                          RemUIText(item.time.display(context)),
+                          RemUIText(item.label ?? 'Alarm'),
+                        ],
+                      ),
+                    ),
+                  ],
+                );
+              },
+            );
+          },
         ),
       ),
     ),

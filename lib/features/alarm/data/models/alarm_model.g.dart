@@ -17,28 +17,34 @@ class AlarmModelAdapter extends TypeAdapter<AlarmModel> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return AlarmModel(
-      hour: fields[0] as int,
-      minute: fields[1] as int,
-      label: fields[2] as String?,
-      repeatDays: (fields[3] as List<dynamic>).cast<int>(),
-      snoozeMinutes: fields[4] as int?,
+      id: fields[0] as String,
+      hour: fields[1] as int,
+      minute: fields[2] as int,
+      label: fields[3] as String?,
+      repeatDays: (fields[4] as List<dynamic>).cast<int>(),
+      snoozeMinutes: fields[5] as int?,
+      enabled: fields[6] as bool,
     );
   }
 
   @override
   void write(BinaryWriter writer, AlarmModel obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(7)
       ..writeByte(0)
-      ..write(obj.hour)
+      ..write(obj.id)
       ..writeByte(1)
-      ..write(obj.minute)
+      ..write(obj.hour)
       ..writeByte(2)
-      ..write(obj.label)
+      ..write(obj.minute)
       ..writeByte(3)
-      ..write(obj.repeatDays)
+      ..write(obj.label)
       ..writeByte(4)
-      ..write(obj.snoozeMinutes);
+      ..write(obj.repeatDays)
+      ..writeByte(5)
+      ..write(obj.snoozeMinutes)
+      ..writeByte(6)
+      ..write(obj.enabled);
   }
 
   @override
