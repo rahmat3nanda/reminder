@@ -1,4 +1,4 @@
-import 'package:hive/hive.dart' show Box;
+import 'package:hive/hive.dart' show Box, Hive;
 import 'package:reminder/features/alarm/data/datasources/alarm_datasource_interface.dart'
     show AlarmDatasource;
 import 'package:reminder/features/alarm/data/models/alarm_model.dart'
@@ -6,7 +6,7 @@ import 'package:reminder/features/alarm/data/models/alarm_model.dart'
 import 'package:reminder/features/alarm/domain/entities/alarm.dart' show Alarm;
 
 class AlarmLocalDatasource implements AlarmDatasource {
-  const AlarmLocalDatasource(this.box);
+  AlarmLocalDatasource(String box) : box = Hive.box(box);
 
   final Box<AlarmModel> box;
 
