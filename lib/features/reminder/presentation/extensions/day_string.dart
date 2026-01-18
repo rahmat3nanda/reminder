@@ -1,7 +1,7 @@
 import 'package:reminder/features/reminder/domain/enums/day.dart' show Day;
 
 extension DayString on Day {
-  String get name => switch (this) {
+  String get display => switch (this) {
     Day.monday => 'Monday',
     Day.tuesday => 'Tuesday',
     Day.wednesday => 'Wednesday',
@@ -17,6 +17,11 @@ extension DaysString on List<Day> {
     if (isEmpty) return 'Never';
 
     final Set<Day> set = toSet();
+
+    const List<Day> allDays = Day.values;
+    if (set.length == allDays.length && allDays.every(set.contains)) {
+      return 'Everyday';
+    }
 
     const List<Day> weekdays = <Day>[
       Day.monday,
@@ -36,6 +41,6 @@ extension DaysString on List<Day> {
       return 'Weekend';
     }
 
-    return map((Day e) => e.name.substring(0, 3)).join(', ');
+    return map((Day e) => e.display.substring(0, 3)).join(', ');
   }
 }
