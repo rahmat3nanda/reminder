@@ -44,4 +44,15 @@ class ReminderAddCubit extends Cubit<ReminderAddState> {
 
     emit(state.copyWith(hour: h24));
   }
+
+  void repeatDay(Day day) {
+    final List<Day> days = List<Day>.from(state.repeatDays);
+    if (days.contains(day)) {
+      days.remove(day);
+    } else {
+      days.add(day);
+    }
+
+    emit(state.copyWith(repeatDays: days));
+  }
 }
