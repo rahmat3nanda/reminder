@@ -9,18 +9,19 @@ import 'package:reminder/features/reminder/domain/enums/day.dart' show Day;
 part 'reminder_form_state.dart';
 
 class ReminderFormCubit extends Cubit<ReminderFormState> {
-  ReminderFormCubit({required bool use24Format})
+  ReminderFormCubit({required bool use24Format, Reminder? initial})
     : super(
         ReminderFormState(
-          hour: DateTime.now().hour,
-          minute: DateTime.now().minute,
+          initial: initial,
+          hour: initial?.time.hour ?? DateTime.now().hour,
+          minute: initial?.time.minute ?? DateTime.now().minute,
           use24Format: use24Format,
-          repeatDays: const <Day>[],
-          label: null,
-          snooze: false,
+          repeatDays: initial?.repeatDays ?? const <Day>[],
+          label: initial?.label,
+          snooze: initial?.snoozeMinutes != null,
           snoozeExpand: false,
-          snoozeMinutes: null,
-          enabled: true,
+          snoozeMinutes: initial?.snoozeMinutes,
+          enabled: initial?.enabled ?? true,
         ),
       );
 

@@ -54,13 +54,15 @@ import 'package:reminder/features/reminder/presentation/sheets/reminder_repeat_s
 import 'package:reminder/shared/widgets.dart' show RemUIText;
 
 class ReminderFormSheet extends StatelessWidget {
-  const ReminderFormSheet({super.key});
+  const ReminderFormSheet({this.item, super.key});
 
-  static Future<Reminder?> show(BuildContext context) =>
+  final Reminder? item;
+
+  static Future<Reminder?> show(BuildContext context, {Reminder? item}) =>
       showModalBottomSheet<Reminder?>(
         context: context,
         isScrollControlled: true,
-        builder: (_) => const ReminderFormSheet(),
+        builder: (_) => ReminderFormSheet(item: item),
         backgroundColor: Colors.transparent,
       );
 
@@ -70,7 +72,7 @@ class ReminderFormSheet extends StatelessWidget {
     final AppColor color = context.read<ThemeBloc>().state.color;
 
     return BlocProvider<ReminderFormCubit>(
-      create: (_) => ReminderFormCubit(use24Format: use24Format),
+      create: (_) => ReminderFormCubit(use24Format: use24Format, initial: item),
       child: Container(
         width: double.infinity,
         height: MediaQuery.of(context).size.height - kToolbarHeight,
@@ -91,12 +93,14 @@ class ReminderFormSheet extends StatelessWidget {
                   onTap: () => Navigator.pop(context),
                   iconColor: color.text,
                 ),
-                const Expanded(
-                  child: RemUIText(
-                    'Add Reminder',
-                    textAlign: .center,
-                    fontWeight: .w600,
-                    fontSize: 16,
+                Expanded(
+                  child: BlocBuilder<ReminderFormCubit, ReminderFormState>(
+                    builder: (_, ReminderFormState state) => RemUIText(
+                      '${state.isEdit ? 'Edit' : 'Add'} Reminder',
+                      textAlign: .center,
+                      fontWeight: .w600,
+                      fontSize: 16,
+                    ),
                   ),
                 ),
                 BlocBuilder<ReminderFormCubit, ReminderFormState>(
@@ -273,6 +277,37 @@ class ReminderFormSheet extends StatelessWidget {
                       ),
                     ),
               ),
+            ),
+            BlocBuilder<ReminderFormCubit, ReminderFormState>(
+              builder: (_, ReminderFormState s) {
+                if (!s.isEdit) {
+                  return const SizedBox.shrink();
+                }
+
+                return Padding(
+                  padding: const .only(top: 24),
+                  child: Material(
+                    clipBehavior: .antiAlias,
+                    color: color.greyS3A5.value,
+                    borderRadius: .circular(12),
+                    child: InkWell(
+                      onTap: () =>
+                          Navigator.pop(context, s.data.copyWith(delete: true)),
+                      child: Container(
+                        padding: const .symmetric(vertical: 16, horizontal: 24),
+                        width: .infinity,
+                        child: Center(
+                          child: RemUIText(
+                            'Delete Reminder',
+                            color: color.error,
+                            fontWeight: .w600,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              },
             ),
           ],
         ),

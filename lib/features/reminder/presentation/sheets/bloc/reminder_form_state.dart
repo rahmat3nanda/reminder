@@ -11,8 +11,10 @@ class ReminderFormState extends Equatable {
     required this.snoozeExpand,
     required this.snoozeMinutes,
     required this.enabled,
+    this.initial,
   });
 
+  final Reminder? initial;
   final int hour;
   final int minute;
   final bool use24Format;
@@ -22,6 +24,8 @@ class ReminderFormState extends Equatable {
   final bool snoozeExpand;
   final int? snoozeMinutes;
   final bool enabled;
+
+  bool get isEdit => initial != null;
 
   int get hourPickerIndex {
     if (use24Format) return hour;
@@ -34,14 +38,27 @@ class ReminderFormState extends Equatable {
 
   int get amPmIndex => hour < 12 ? 0 : 1;
 
-  Reminder get data => Reminder.create(
-    time: ReminderTime(hour: hour, minute: minute),
-    label: label,
-    repeatDays: repeatDays,
-    snoozeMinutes: snoozeMinutes,
-  );
+  Reminder get data {
+    final Reminder base =
+        initial ??
+        Reminder.create(
+          time: ReminderTime(hour: hour, minute: minute),
+          label: label,
+          repeatDays: repeatDays,
+          snoozeMinutes: snoozeMinutes,
+        );
+
+    return base.copyWith(
+      time: ReminderTime(hour: hour, minute: minute),
+      label: label,
+      repeatDays: repeatDays,
+      snoozeMinutes: snoozeMinutes,
+      enabled: enabled,
+    );
+  }
 
   ReminderFormState copyWith({
+    Reminder? initial,
     int? hour,
     int? minute,
     bool? use24Format,
@@ -52,6 +69,7 @@ class ReminderFormState extends Equatable {
     int? snoozeMinutes,
     bool? enabled,
   }) => ReminderFormState(
+    initial: initial ?? this.initial,
     hour: hour ?? this.hour,
     minute: minute ?? this.minute,
     use24Format: use24Format ?? this.use24Format,
@@ -65,6 +83,7 @@ class ReminderFormState extends Equatable {
 
   @override
   List<Object?> get props => <Object?>[
+    initial,
     hour,
     minute,
     use24Format,

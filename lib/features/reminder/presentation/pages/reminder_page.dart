@@ -30,6 +30,7 @@ import 'package:reminder/features/reminder/domain/entities/reminder.dart'
 import 'package:reminder/features/reminder/presentation/bloc/reminder_bloc.dart'
     show
         AddReminder,
+        DeleteReminder,
         LoadReminders,
         ReminderBloc,
         ReminderState,
@@ -92,7 +93,19 @@ class ReminderPage extends StatelessWidget {
               itemBuilder: (_, int i) {
                 final Reminder item = state.data[i];
                 return InkWell(
-                  onTap: () {},
+                  onTap: () async {
+                    final ReminderBloc bloc = context.read<ReminderBloc>();
+                    final Reminder? update = await ReminderFormSheet.show(
+                      context,
+                      item: item,
+                    );
+                    if (update == null) return;
+                    if (update.delete) {
+                      bloc.add(DeleteReminder(update));
+                    } else {
+                      bloc.add(UpdateReminder(update));
+                    }
+                  },
                   child: Padding(
                     padding: const .symmetric(vertical: 12, horizontal: 16),
                     child: Row(
