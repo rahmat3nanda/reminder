@@ -7,10 +7,10 @@ import 'package:reminder/cores/extensions/system_overlay.dart'
 import 'package:reminder/cores/hive/hive_box_registry.dart' show AppHiveBox;
 import 'package:reminder/cores/themes/bloc/theme_bloc.dart'
     show LoadTheme, ThemeBloc, ThemeState;
+import 'package:reminder/cores/themes/data/datasources/theme_local_datasource.dart'
+    show ThemeLocalDataSource;
 import 'package:reminder/cores/themes/data/theme.hive_key.dart'
     show ThemeHiveKey;
-import 'package:reminder/cores/themes/data/theme_local_datasource.dart'
-    show ThemeLocalDataSource;
 import 'package:reminder/cores/themes/domain/theme_mode_enum.dart'
     show AppThemeMode, AppThemeModeTools;
 import 'package:reminder/cores/themes/theme_builder.dart' show AppThemeBuilder;
