@@ -1,4 +1,5 @@
 enum Sound {
+  none,
   atmosphere,
   beep,
   bell,
@@ -12,6 +13,7 @@ enum Sound {
 
 extension SoundResolver on Sound {
   String get android => switch (this) {
+    Sound.none => '',
     Sound.atmosphere => 'atmosphere',
     Sound.beep => 'beep',
     Sound.bell => 'bell',
@@ -24,6 +26,7 @@ extension SoundResolver on Sound {
   };
 
   String get ios => switch (this) {
+    Sound.none => '',
     Sound.atmosphere => 'atmosphere.caf',
     Sound.beep => 'beep.caf',
     Sound.bell => 'bell.caf',
