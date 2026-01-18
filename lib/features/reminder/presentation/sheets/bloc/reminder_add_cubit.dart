@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart' show Equatable;
 import 'package:flutter_bloc/flutter_bloc.dart' show Cubit;
+import 'package:reminder/features/reminder/domain/entities/reminder.dart'
+    show Reminder;
 import 'package:reminder/features/reminder/domain/entities/reminder_time.dart'
     show ReminderTime;
 import 'package:reminder/features/reminder/domain/enums/day.dart' show Day;
@@ -57,6 +59,8 @@ class ReminderAddCubit extends Cubit<ReminderAddState> {
 
     emit(state.copyWith(repeatDays: days));
   }
+
+  void setLabel(String label) => emit(state.copyWith(label: label));
 
   void toggleSnooze() {
     emit(

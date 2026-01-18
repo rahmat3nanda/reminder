@@ -24,10 +24,10 @@ import 'package:reminder/features/reminder/data/reminder.hive_key.dart'
     show ReminderHiveKey;
 import 'package:reminder/features/reminder/domain/entities/reminder.dart'
     show Reminder;
-import 'package:reminder/features/reminder/domain/entities/reminder_time.dart'
-    show ReminderTime;
 import 'package:reminder/features/reminder/presentation/bloc/reminder_bloc.dart'
     show AddReminder, LoadReminders, ReminderBloc, ReminderState;
+import 'package:reminder/features/reminder/presentation/extensions/day_string.dart'
+    show DaysString;
 import 'package:reminder/features/reminder/presentation/extensions/reminder_time_string.dart'
     show ReminderTimeString;
 import 'package:reminder/features/reminder/presentation/sheets/reminder_add_sheet.dart'
@@ -62,9 +62,9 @@ class ReminderPage extends StatelessWidget {
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
             final ReminderBloc bloc = context.read<ReminderBloc>();
-            final ReminderTime? time = await ReminderAddSheet.show(context);
-            if (time == null) return;
-            bloc.add(AddReminder(Reminder.create(time: time)));
+            final Reminder? item = await ReminderAddSheet.show(context);
+            if (item == null) return;
+            bloc.add(AddReminder(item));
           },
           backgroundColor: state.color.primary.value,
           child: Icon(Icons.add, color: state.color.primarySoft.value),
@@ -91,7 +91,13 @@ class ReminderPage extends StatelessWidget {
                         spacing: 4,
                         children: <Widget>[
                           RemUIText(item.time.display(context)),
-                          RemUIText(item.label ?? 'Reminder'),
+                          RemUIText(
+                            <String>[
+                              item.label ?? 'Reminder',
+                              if (item.repeatDays.isNotEmpty)
+                                'every ${item.repeatDays.display}',
+                            ].join(', '),
+                          ),
                         ],
                       ),
                     ),

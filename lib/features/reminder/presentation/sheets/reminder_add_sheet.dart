@@ -22,6 +22,7 @@ import 'package:flutter/material.dart'
         Icons,
         IgnorePointer,
         InkWell,
+        InputDecoration,
         ListView,
         Material,
         MediaQuery,
@@ -32,6 +33,8 @@ import 'package:flutter/material.dart'
         Stack,
         StatelessWidget,
         Switch,
+        TextFormField,
+        TextStyle,
         VoidCallback,
         Widget,
         kToolbarHeight,
@@ -40,8 +43,8 @@ import 'package:flutter_bloc/flutter_bloc.dart'
     show BlocBuilder, BlocProvider, ReadContext;
 import 'package:reminder/cores/colors/color.dart' show AppColor, AppColorBase;
 import 'package:reminder/cores/themes/bloc/theme_bloc.dart' show ThemeBloc;
-import 'package:reminder/features/reminder/domain/entities/reminder_time.dart'
-    show ReminderTime;
+import 'package:reminder/features/reminder/domain/entities/reminder.dart'
+    show Reminder;
 import 'package:reminder/features/reminder/presentation/extensions/day_string.dart'
     show DaysString;
 import 'package:reminder/features/reminder/presentation/sheets/bloc/reminder_add_cubit.dart'
@@ -53,8 +56,8 @@ import 'package:reminder/shared/widgets.dart' show RemUIText;
 class ReminderAddSheet extends StatelessWidget {
   const ReminderAddSheet({super.key});
 
-  static Future<ReminderTime?> show(BuildContext context) =>
-      showModalBottomSheet<ReminderTime?>(
+  static Future<Reminder?> show(BuildContext context) =>
+      showModalBottomSheet<Reminder?>(
         context: context,
         isScrollControlled: true,
         builder: (_) => const ReminderAddSheet(),
@@ -99,7 +102,7 @@ class ReminderAddSheet extends StatelessWidget {
                 BlocBuilder<ReminderAddCubit, ReminderAddState>(
                   builder: (_, ReminderAddState state) => _actionButton(
                     icon: Icons.check,
-                    onTap: () => Navigator.pop(context, state.reminderTime),
+                    onTap: () => Navigator.pop(context, state.data),
                     backgroundColor: color.primary,
                     iconColor: color.primarySoft,
                   ),
@@ -206,7 +209,22 @@ class ReminderAddSheet extends StatelessWidget {
                             ),
                           ),
                           _divider(color),
-                          _field(title: 'Label'),
+                          _field(
+                            title: 'Label',
+                            value: TextFormField(
+                              textInputAction: .done,
+                              initialValue: s.label,
+                              onChanged: context
+                                  .read<ReminderAddCubit>()
+                                  .setLabel,
+                              decoration: const InputDecoration(
+                                hintText: 'Reminder',
+                                border: .none,
+                              ),
+                              textAlign: .right,
+                              style: TextStyle(color: color.text.value),
+                            ),
+                          ),
                           _divider(color),
                           // _field(title: 'Sound'),
                           // _divider(color),

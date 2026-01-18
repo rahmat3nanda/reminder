@@ -34,7 +34,12 @@ class ReminderAddState extends Equatable {
 
   int get amPmIndex => hour < 12 ? 0 : 1;
 
-  ReminderTime get reminderTime => ReminderTime(hour: hour, minute: minute);
+  Reminder get data => Reminder.create(
+    time: ReminderTime(hour: hour, minute: minute),
+    label: label,
+    repeatDays: repeatDays,
+    snoozeMinutes: snoozeMinutes,
+  );
 
   ReminderAddState copyWith({
     int? hour,
