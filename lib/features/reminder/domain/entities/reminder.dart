@@ -12,6 +12,7 @@ class Reminder extends Equatable {
     this.repeatDays = const <Day>[],
     this.snoozeMinutes,
     this.enabled = true,
+    this.delete = false,
   });
 
   factory Reminder.create({
@@ -33,6 +34,7 @@ class Reminder extends Equatable {
   final List<Day> repeatDays;
   final int? snoozeMinutes;
   final bool enabled;
+  final bool delete;
 
   Reminder copyWith({
     ReminderTime? time,
@@ -40,6 +42,7 @@ class Reminder extends Equatable {
     List<Day>? repeatDays,
     int? snoozeMinutes,
     bool? enabled,
+    bool? delete,
   }) => Reminder(
     id: id,
     time: time ?? this.time,
@@ -47,6 +50,7 @@ class Reminder extends Equatable {
     repeatDays: repeatDays ?? this.repeatDays,
     snoozeMinutes: snoozeMinutes ?? this.snoozeMinutes,
     enabled: enabled ?? this.enabled,
+    delete: delete ?? this.delete,
   );
 
   @override
@@ -57,5 +61,6 @@ class Reminder extends Equatable {
     repeatDays,
     snoozeMinutes,
     enabled,
+    delete,
   ];
 }
