@@ -1,4 +1,4 @@
-import 'package:hive/hive.dart' show Box;
+import 'package:hive/hive.dart' show Box, Hive;
 import 'package:reminder/cores/themes/data/datasources/theme_datasource.dart'
     show ThemeDatasource;
 import 'package:reminder/cores/themes/data/theme.hive_key.dart'
@@ -7,7 +7,7 @@ import 'package:reminder/cores/themes/domain/theme_mode_enum.dart'
     show AppThemeMode;
 
 class ThemeLocalDatasource implements ThemeDatasource {
-  const ThemeLocalDatasource(this.box);
+  ThemeLocalDatasource(String box) : box = Hive.box(box);
 
   final Box<dynamic> box;
 
