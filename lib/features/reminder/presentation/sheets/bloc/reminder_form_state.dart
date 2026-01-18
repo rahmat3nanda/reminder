@@ -1,7 +1,7 @@
-part of 'reminder_add_cubit.dart';
+part of 'reminder_form_cubit.dart';
 
-class ReminderAddState extends Equatable {
-  const ReminderAddState({
+class ReminderFormState extends Equatable {
+  const ReminderFormState({
     required this.hour,
     required this.minute,
     required this.use24Format,
@@ -41,7 +41,7 @@ class ReminderAddState extends Equatable {
     snoozeMinutes: snoozeMinutes,
   );
 
-  ReminderAddState copyWith({
+  ReminderFormState copyWith({
     int? hour,
     int? minute,
     bool? use24Format,
@@ -51,7 +51,7 @@ class ReminderAddState extends Equatable {
     bool? snoozeExpand,
     int? snoozeMinutes,
     bool? enabled,
-  }) => ReminderAddState(
+  }) => ReminderFormState(
     hour: hour ?? this.hour,
     minute: minute ?? this.minute,
     use24Format: use24Format ?? this.use24Format,

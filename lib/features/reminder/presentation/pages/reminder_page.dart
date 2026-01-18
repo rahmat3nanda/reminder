@@ -38,8 +38,8 @@ import 'package:reminder/features/reminder/presentation/extensions/day_string.da
     show DaysString;
 import 'package:reminder/features/reminder/presentation/extensions/reminder_time_string.dart'
     show ReminderTimeString;
-import 'package:reminder/features/reminder/presentation/sheets/reminder_add_sheet.dart'
-    show ReminderAddSheet;
+import 'package:reminder/features/reminder/presentation/sheets/reminder_form_sheet.dart'
+    show ReminderFormSheet;
 import 'package:reminder/features/setting/presentation/pages/setting_page.dart'
     show SettingPage;
 import 'package:reminder/shared/widgets.dart'
@@ -70,7 +70,7 @@ class ReminderPage extends StatelessWidget {
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
             final ReminderBloc bloc = context.read<ReminderBloc>();
-            final Reminder? item = await ReminderAddSheet.show(context);
+            final Reminder? item = await ReminderFormSheet.show(context);
             if (item == null) return;
             bloc.add(AddReminder(item));
           },

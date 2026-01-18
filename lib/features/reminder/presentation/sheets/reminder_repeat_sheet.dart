@@ -37,18 +37,18 @@ import 'package:reminder/features/reminder/domain/entities/reminder_time.dart'
 import 'package:reminder/features/reminder/domain/enums/day.dart' show Day;
 import 'package:reminder/features/reminder/presentation/extensions/day_string.dart'
     show DayString;
-import 'package:reminder/features/reminder/presentation/sheets/bloc/reminder_add_cubit.dart'
-    show ReminderAddCubit, ReminderAddState;
+import 'package:reminder/features/reminder/presentation/sheets/bloc/reminder_form_cubit.dart'
+    show ReminderFormCubit, ReminderFormState;
 import 'package:reminder/shared/widgets.dart' show RemUIText;
 
 class ReminderRepeatSheet extends StatelessWidget {
   const ReminderRepeatSheet({required this.cubit, super.key});
 
-  final ReminderAddCubit cubit;
+  final ReminderFormCubit cubit;
 
   static Future<ReminderTime?> show(
     BuildContext context, {
-    required ReminderAddCubit cubit,
+    required ReminderFormCubit cubit,
   }) => showModalBottomSheet<ReminderTime?>(
     context: context,
     isScrollControlled: true,
@@ -98,9 +98,9 @@ class ReminderRepeatSheet extends StatelessWidget {
             color: color.greyS3A5.value,
             borderRadius: .circular(12),
             clipBehavior: .antiAlias,
-            child: BlocBuilder<ReminderAddCubit, ReminderAddState>(
+            child: BlocBuilder<ReminderFormCubit, ReminderFormState>(
               bloc: cubit,
-              builder: (_, ReminderAddState s) => ListView.separated(
+              builder: (_, ReminderFormState s) => ListView.separated(
                 padding: .zero,
                 itemCount: Day.values.length,
                 primary: false,

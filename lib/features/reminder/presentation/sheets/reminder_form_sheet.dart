@@ -47,20 +47,20 @@ import 'package:reminder/features/reminder/domain/entities/reminder.dart'
     show Reminder;
 import 'package:reminder/features/reminder/presentation/extensions/day_string.dart'
     show DaysString;
-import 'package:reminder/features/reminder/presentation/sheets/bloc/reminder_add_cubit.dart'
-    show ReminderAddCubit, ReminderAddState;
+import 'package:reminder/features/reminder/presentation/sheets/bloc/reminder_form_cubit.dart'
+    show ReminderFormCubit, ReminderFormState;
 import 'package:reminder/features/reminder/presentation/sheets/reminder_repeat_sheet.dart'
     show ReminderRepeatSheet;
 import 'package:reminder/shared/widgets.dart' show RemUIText;
 
-class ReminderAddSheet extends StatelessWidget {
-  const ReminderAddSheet({super.key});
+class ReminderFormSheet extends StatelessWidget {
+  const ReminderFormSheet({super.key});
 
   static Future<Reminder?> show(BuildContext context) =>
       showModalBottomSheet<Reminder?>(
         context: context,
         isScrollControlled: true,
-        builder: (_) => const ReminderAddSheet(),
+        builder: (_) => const ReminderFormSheet(),
         backgroundColor: Colors.transparent,
       );
 
@@ -69,8 +69,8 @@ class ReminderAddSheet extends StatelessWidget {
     final bool use24Format = MediaQuery.of(context).alwaysUse24HourFormat;
     final AppColor color = context.read<ThemeBloc>().state.color;
 
-    return BlocProvider<ReminderAddCubit>(
-      create: (_) => ReminderAddCubit(use24Format: use24Format),
+    return BlocProvider<ReminderFormCubit>(
+      create: (_) => ReminderFormCubit(use24Format: use24Format),
       child: Container(
         width: double.infinity,
         height: MediaQuery.of(context).size.height - kToolbarHeight,
@@ -99,8 +99,8 @@ class ReminderAddSheet extends StatelessWidget {
                     fontSize: 16,
                   ),
                 ),
-                BlocBuilder<ReminderAddCubit, ReminderAddState>(
-                  builder: (_, ReminderAddState state) => _actionButton(
+                BlocBuilder<ReminderFormCubit, ReminderFormState>(
+                  builder: (_, ReminderFormState state) => _actionButton(
                     icon: Icons.check,
                     onTap: () => Navigator.pop(context, state.data),
                     backgroundColor: color.primary,
@@ -110,8 +110,8 @@ class ReminderAddSheet extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 24),
-            BlocBuilder<ReminderAddCubit, ReminderAddState>(
-              builder: (BuildContext context, ReminderAddState state) =>
+            BlocBuilder<ReminderFormCubit, ReminderFormState>(
+              builder: (BuildContext context, ReminderFormState state) =>
                   SizedBox(
                     height: 156,
                     child: Stack(
@@ -132,7 +132,7 @@ class ReminderAddSheet extends StatelessWidget {
                                         .toString()
                                         .padLeft(2, '0'),
                                 onChanged: context
-                                    .read<ReminderAddCubit>()
+                                    .read<ReminderFormCubit>()
                                     .setHourFromPicker,
                               ),
                             ),
@@ -146,7 +146,7 @@ class ReminderAddSheet extends StatelessWidget {
                                 labelBuilder: (int i) =>
                                     i.toString().padLeft(2, '0'),
                                 onChanged: context
-                                    .read<ReminderAddCubit>()
+                                    .read<ReminderFormCubit>()
                                     .setMinute,
                               ),
                             ),
@@ -162,7 +162,7 @@ class ReminderAddSheet extends StatelessWidget {
                                       <String>['AM', 'PM'][i],
                                   looping: false,
                                   onChanged: context
-                                      .read<ReminderAddCubit>()
+                                      .read<ReminderFormCubit>()
                                       .setAmPm,
                                 ),
                               ),
@@ -189,8 +189,8 @@ class ReminderAddSheet extends StatelessWidget {
               clipBehavior: .antiAlias,
               color: color.greyS3A5.value,
               borderRadius: .circular(12),
-              child: BlocBuilder<ReminderAddCubit, ReminderAddState>(
-                builder: (BuildContext context, ReminderAddState s) =>
+              child: BlocBuilder<ReminderFormCubit, ReminderFormState>(
+                builder: (BuildContext context, ReminderFormState s) =>
                     AnimatedSize(
                       duration: const Duration(milliseconds: 250),
                       curve: Curves.easeOutCubic,
@@ -205,7 +205,7 @@ class ReminderAddSheet extends StatelessWidget {
                             ),
                             onTap: () => ReminderRepeatSheet.show(
                               context,
-                              cubit: context.read<ReminderAddCubit>(),
+                              cubit: context.read<ReminderFormCubit>(),
                             ),
                           ),
                           _divider(color),
@@ -215,7 +215,7 @@ class ReminderAddSheet extends StatelessWidget {
                               textInputAction: .done,
                               initialValue: s.label,
                               onChanged: context
-                                  .read<ReminderAddCubit>()
+                                  .read<ReminderFormCubit>()
                                   .setLabel,
                               decoration: const InputDecoration(
                                 hintText: 'Reminder',
@@ -235,7 +235,7 @@ class ReminderAddSheet extends StatelessWidget {
                               child: Switch(
                                 value: s.snooze,
                                 onChanged: (_) => context
-                                    .read<ReminderAddCubit>()
+                                    .read<ReminderFormCubit>()
                                     .toggleSnooze(),
                               ),
                             ),
@@ -250,7 +250,7 @@ class ReminderAddSheet extends StatelessWidget {
                                 textAlign: .right,
                               ),
                               onTap: () => context
-                                  .read<ReminderAddCubit>()
+                                  .read<ReminderFormCubit>()
                                   .toggleSnoozeExpand(),
                             ),
                           ],
@@ -265,7 +265,7 @@ class ReminderAddSheet extends StatelessWidget {
                                 looping: false,
                                 labelBuilder: (int i) => '${i + 1} min',
                                 onChanged: (int i) => context
-                                    .read<ReminderAddCubit>()
+                                    .read<ReminderFormCubit>()
                                     .setSnoozeMinutes(i + 1),
                               ),
                             ),
