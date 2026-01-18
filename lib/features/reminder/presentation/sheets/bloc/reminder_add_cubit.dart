@@ -15,6 +15,8 @@ class ReminderAddCubit extends Cubit<ReminderAddState> {
           use24Format: use24Format,
           repeatDays: const <Day>[],
           label: null,
+          snooze: false,
+          snoozeExpand: false,
           snoozeMinutes: null,
           enabled: true,
         ),
@@ -54,5 +56,22 @@ class ReminderAddCubit extends Cubit<ReminderAddState> {
     }
 
     emit(state.copyWith(repeatDays: days));
+  }
+
+  void toggleSnooze() {
+    emit(
+      state.copyWith(
+        snooze: !state.snooze,
+        snoozeMinutes: state.snoozeMinutes == null ? 10 : null,
+      ),
+    );
+  }
+
+  void toggleSnoozeExpand() {
+    emit(state.copyWith(snoozeExpand: !state.snoozeExpand));
+  }
+
+  void setSnoozeMinutes(int minutes) {
+    emit(state.copyWith(snoozeMinutes: minutes));
   }
 }

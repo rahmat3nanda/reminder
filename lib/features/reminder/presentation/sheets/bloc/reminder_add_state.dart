@@ -7,6 +7,8 @@ class ReminderAddState extends Equatable {
     required this.use24Format,
     required this.repeatDays,
     required this.label,
+    required this.snooze,
+    required this.snoozeExpand,
     required this.snoozeMinutes,
     required this.enabled,
   });
@@ -16,6 +18,8 @@ class ReminderAddState extends Equatable {
   final bool use24Format;
   final List<Day> repeatDays;
   final String? label;
+  final bool snooze;
+  final bool snoozeExpand;
   final int? snoozeMinutes;
   final bool enabled;
 
@@ -38,6 +42,8 @@ class ReminderAddState extends Equatable {
     bool? use24Format,
     List<Day>? repeatDays,
     String? label,
+    bool? snooze,
+    bool? snoozeExpand,
     int? snoozeMinutes,
     bool? enabled,
   }) => ReminderAddState(
@@ -46,6 +52,8 @@ class ReminderAddState extends Equatable {
     use24Format: use24Format ?? this.use24Format,
     repeatDays: repeatDays ?? this.repeatDays,
     label: label ?? this.label,
+    snooze: snooze ?? this.snooze,
+    snoozeExpand: snoozeExpand ?? this.snoozeExpand,
     snoozeMinutes: snoozeMinutes ?? this.snoozeMinutes,
     enabled: enabled ?? this.enabled,
   );
@@ -57,6 +65,8 @@ class ReminderAddState extends Equatable {
     use24Format,
     repeatDays,
     label,
+    snooze,
+    snoozeExpand,
     snoozeMinutes,
     enabled,
   ];

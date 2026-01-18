@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart' show Alignment, CupertinoPicker;
 import 'package:flutter/material.dart'
     show
         Align,
+        AnimatedSize,
         BoxConstraints,
         BoxDecoration,
         BuildContext,
@@ -10,6 +11,7 @@ import 'package:flutter/material.dart'
         Colors,
         Column,
         Container,
+        Curves,
         Divider,
         Expanded,
         FixedExtentScrollController,
@@ -29,6 +31,7 @@ import 'package:flutter/material.dart'
         SizedBox,
         Stack,
         StatelessWidget,
+        Switch,
         VoidCallback,
         Widget,
         kToolbarHeight,
@@ -114,44 +117,51 @@ class ReminderAddSheet extends StatelessWidget {
                         Row(
                           spacing: 8,
                           children: <Widget>[
-                            _picker(
-                              color: color,
-                              itemCount: use24Format ? 24 : 12,
-                              initialIndex: state.hourPickerIndex,
-                              alignment: .centerRight,
-                              offAxisFraction: -.5,
-                              labelBuilder: (int i) => (use24Format ? i : i + 1)
-                                  .toString()
-                                  .padLeft(2, '0'),
-                              onChanged: context
-                                  .read<ReminderAddCubit>()
-                                  .setHourFromPicker,
-                            ),
-                            _picker(
-                              color: color,
-                              alignment: use24Format ? .centerLeft : .center,
-                              offAxisFraction: use24Format ? .5 : 0,
-                              itemCount: 60,
-                              initialIndex: state.minutePickerIndex,
-                              labelBuilder: (int i) =>
-                                  i.toString().padLeft(2, '0'),
-                              onChanged: context
-                                  .read<ReminderAddCubit>()
-                                  .setMinute,
-                            ),
-                            if (!use24Format)
-                              _picker(
+                            Flexible(
+                              child: _picker(
                                 color: color,
-                                alignment: .centerLeft,
-                                offAxisFraction: .5,
-                                itemCount: 2,
-                                initialIndex: state.amPmIndex,
+                                itemCount: use24Format ? 24 : 12,
+                                initialIndex: state.hourPickerIndex,
+                                alignment: .centerRight,
+                                offAxisFraction: -.5,
                                 labelBuilder: (int i) =>
-                                    <String>['AM', 'PM'][i],
-                                looping: false,
+                                    (use24Format ? i : i + 1)
+                                        .toString()
+                                        .padLeft(2, '0'),
                                 onChanged: context
                                     .read<ReminderAddCubit>()
-                                    .setAmPm,
+                                    .setHourFromPicker,
+                              ),
+                            ),
+                            Flexible(
+                              child: _picker(
+                                color: color,
+                                alignment: use24Format ? .centerLeft : .center,
+                                offAxisFraction: use24Format ? .5 : 0,
+                                itemCount: 60,
+                                initialIndex: state.minutePickerIndex,
+                                labelBuilder: (int i) =>
+                                    i.toString().padLeft(2, '0'),
+                                onChanged: context
+                                    .read<ReminderAddCubit>()
+                                    .setMinute,
+                              ),
+                            ),
+                            if (!use24Format)
+                              Flexible(
+                                child: _picker(
+                                  color: color,
+                                  alignment: .centerLeft,
+                                  offAxisFraction: .5,
+                                  itemCount: 2,
+                                  initialIndex: state.amPmIndex,
+                                  labelBuilder: (int i) =>
+                                      <String>['AM', 'PM'][i],
+                                  looping: false,
+                                  onChanged: context
+                                      .read<ReminderAddCubit>()
+                                      .setAmPm,
+                                ),
                               ),
                           ],
                         ),
@@ -177,27 +187,73 @@ class ReminderAddSheet extends StatelessWidget {
               color: color.greyS3A5.value,
               borderRadius: .circular(12),
               child: BlocBuilder<ReminderAddCubit, ReminderAddState>(
-                builder: (BuildContext context, ReminderAddState s) => Column(
-                  mainAxisSize: .min,
-                  children: <Widget>[
-                    _field(
-                      title: 'Repeat',
-                      value: RemUIText(s.repeatDays.display, textAlign: .right),
-                      onTap: () => ReminderRepeatSheet.show(
-                        context,
-                        cubit: context.read<ReminderAddCubit>(),
+                builder: (BuildContext context, ReminderAddState s) =>
+                    AnimatedSize(
+                      duration: const Duration(milliseconds: 250),
+                      curve: Curves.easeOutCubic,
+                      child: Column(
+                        mainAxisSize: .min,
+                        children: <Widget>[
+                          _field(
+                            title: 'Repeat',
+                            value: RemUIText(
+                              s.repeatDays.display,
+                              textAlign: .right,
+                            ),
+                            onTap: () => ReminderRepeatSheet.show(
+                              context,
+                              cubit: context.read<ReminderAddCubit>(),
+                            ),
+                          ),
+                          _divider(color),
+                          _field(title: 'Label'),
+                          _divider(color),
+                          // _field(title: 'Sound'),
+                          // _divider(color),
+                          _field(
+                            title: 'Snooze',
+                            value: Align(
+                              alignment: .centerRight,
+                              child: Switch(
+                                value: s.snooze,
+                                onChanged: (_) => context
+                                    .read<ReminderAddCubit>()
+                                    .toggleSnooze(),
+                              ),
+                            ),
+                          ),
+                          if (s.snooze) ...<Widget>[
+                            _divider(color),
+                            _field(
+                              title: 'Snooze Duration',
+                              value: RemUIText(
+                                '${s.snoozeMinutes ?? 1} min',
+                                color: color.primary,
+                                textAlign: .right,
+                              ),
+                              onTap: () => context
+                                  .read<ReminderAddCubit>()
+                                  .toggleSnoozeExpand(),
+                            ),
+                          ],
+                          if (s.snoozeExpand)
+                            SizedBox(
+                              height: 156,
+                              child: _picker(
+                                color: color,
+                                itemCount: 15,
+                                initialIndex: ((s.snoozeMinutes ?? 0) - 1)
+                                    .clamp(0, 14),
+                                looping: false,
+                                labelBuilder: (int i) => '${i + 1} min',
+                                onChanged: (int i) => context
+                                    .read<ReminderAddCubit>()
+                                    .setSnoozeMinutes(i + 1),
+                              ),
+                            ),
+                        ],
                       ),
                     ),
-                    _divider(color),
-                    _field(title: 'Label'),
-                    _divider(color),
-                    // _field(title: 'Sound'),
-                    // _divider(color),
-                    _field(title: 'Snooze'),
-                    _divider(color),
-                    _field(title: 'Snooze Duration'),
-                  ],
-                ),
               ),
             ),
           ],
@@ -250,32 +306,28 @@ class ReminderAddSheet extends StatelessWidget {
     int initialIndex = 0,
     double offAxisFraction = 0,
     bool looping = true,
-  }) => Flexible(
-    child: Container(
-      constraints: const BoxConstraints(minWidth: 24),
-      child: CupertinoPicker(
-        scrollController: FixedExtentScrollController(
-          initialItem: initialIndex,
-        ),
-        itemExtent: 22,
-        magnification: 1.05,
-        squeeze: .8,
-        useMagnifier: true,
-        looping: looping,
-        offAxisFraction: offAxisFraction,
-        onSelectedItemChanged: onChanged,
-        selectionOverlay: const SizedBox.shrink(),
-        children: List<Widget>.generate(
-          itemCount,
-          (int i) => Align(
-            alignment: alignment ?? Alignment.center,
-            child: RemUIText(
-              labelBuilder(i),
-              color: color.text,
-              fontSize: 18,
-              fontWeight: .w600,
-              textAlign: .right,
-            ),
+  }) => Container(
+    constraints: const BoxConstraints(minWidth: 24),
+    child: CupertinoPicker(
+      scrollController: FixedExtentScrollController(initialItem: initialIndex),
+      itemExtent: 22,
+      magnification: 1.05,
+      squeeze: .8,
+      useMagnifier: true,
+      looping: looping,
+      offAxisFraction: offAxisFraction,
+      onSelectedItemChanged: onChanged,
+      selectionOverlay: const SizedBox.shrink(),
+      children: List<Widget>.generate(
+        itemCount,
+        (int i) => Align(
+          alignment: alignment ?? Alignment.center,
+          child: RemUIText(
+            labelBuilder(i),
+            color: color.text,
+            fontSize: 18,
+            fontWeight: .w600,
+            textAlign: .right,
           ),
         ),
       ),
