@@ -11,3 +11,31 @@ extension DayString on Day {
     Day.sunday => 'Sunday',
   };
 }
+
+extension DaysString on List<Day> {
+  String get display {
+    if (isEmpty) return 'Never';
+
+    final Set<Day> set = toSet();
+
+    const List<Day> weekdays = <Day>[
+      Day.monday,
+      Day.tuesday,
+      Day.wednesday,
+      Day.thursday,
+      Day.friday,
+    ];
+
+    if (set.length == weekdays.length && weekdays.every(set.contains)) {
+      return 'Weekday';
+    }
+
+    const List<Day> weekends = <Day>[Day.saturday, Day.sunday];
+
+    if (set.length == weekends.length && weekends.every(set.contains)) {
+      return 'Weekend';
+    }
+
+    return map((Day e) => e.name.substring(0, 3)).join(', ');
+  }
+}
