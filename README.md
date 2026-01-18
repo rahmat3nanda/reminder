@@ -68,8 +68,8 @@ Make sure you have the following installed:
 1. **Clone the repository**
 
 ```bash
-git clone https://github.com/rahmat3nanda/boo.git
-cd boo
+git clone https://github.com/rahmat3nanda/reminder.git
+cd reminder
 ```
 
 2. **Install the repository**
