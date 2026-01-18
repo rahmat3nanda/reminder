@@ -42,4 +42,17 @@ extension SoundResolver on Sound {
     Sound.incoming => 'incoming.caf',
     Sound.ticking => 'ticking.caf',
   };
+
+  String get preview => switch (this) {
+    Sound.none => '',
+    Sound.atmosphere => 'assets/sounds/atmosphere.mp3',
+    Sound.beep => 'assets/sounds/beep.mp3',
+    Sound.bell => 'assets/sounds/bell.mp3',
+    Sound.bermuda => 'assets/sounds/bermuda.mp3',
+    Sound.biohazard => 'assets/sounds/biohazard.mp3',
+    Sound.classic => 'assets/sounds/classic.mp3',
+    Sound.funny => 'assets/sounds/funny.mp3',
+    Sound.incoming => 'assets/sounds/incoming.mp3',
+    Sound.ticking => 'assets/sounds/ticking.mp3',
+  };
 }
