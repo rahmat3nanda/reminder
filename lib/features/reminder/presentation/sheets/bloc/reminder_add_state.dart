@@ -1,7 +1,7 @@
-part of 'alarm_add_cubit.dart';
+part of 'reminder_add_cubit.dart';
 
-class AlarmAddState extends Equatable {
-  const AlarmAddState({
+class ReminderAddState extends Equatable {
+  const ReminderAddState({
     required this.hour,
     required this.minute,
     required this.use24Format,
@@ -22,10 +22,10 @@ class AlarmAddState extends Equatable {
 
   int get amPmIndex => hour < 12 ? 0 : 1;
 
-  AlarmTime get alarmTime => AlarmTime(hour: hour, minute: minute);
+  ReminderTime get reminderTime => ReminderTime(hour: hour, minute: minute);
 
-  AlarmAddState copyWith({int? hour, int? minute, bool? use24Format}) =>
-      AlarmAddState(
+  ReminderAddState copyWith({int? hour, int? minute, bool? use24Format}) =>
+      ReminderAddState(
         hour: hour ?? this.hour,
         minute: minute ?? this.minute,
         use24Format: use24Format ?? this.use24Format,

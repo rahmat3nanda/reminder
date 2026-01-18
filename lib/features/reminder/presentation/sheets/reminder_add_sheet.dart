@@ -34,20 +34,20 @@ import 'package:flutter_bloc/flutter_bloc.dart'
     show BlocBuilder, BlocProvider, ReadContext;
 import 'package:reminder/cores/colors/color.dart' show AppColor, AppColorBase;
 import 'package:reminder/cores/themes/bloc/theme_bloc.dart' show ThemeBloc;
-import 'package:reminder/features/alarm/domain/entities/alarm_time.dart'
-    show AlarmTime;
-import 'package:reminder/features/alarm/presentation/sheets/bloc/alarm_add_cubit.dart'
-    show AlarmAddCubit, AlarmAddState;
+import 'package:reminder/features/reminder/domain/entities/reminder_time.dart'
+    show ReminderTime;
+import 'package:reminder/features/reminder/presentation/sheets/bloc/reminder_add_cubit.dart'
+    show ReminderAddCubit, ReminderAddState;
 import 'package:reminder/shared/widgets.dart' show RemUIText;
 
-class AlarmAddSheet extends StatelessWidget {
-  const AlarmAddSheet({super.key});
+class ReminderAddSheet extends StatelessWidget {
+  const ReminderAddSheet({super.key});
 
-  static Future<AlarmTime?> show(BuildContext context) =>
-      showModalBottomSheet<AlarmTime?>(
+  static Future<ReminderTime?> show(BuildContext context) =>
+      showModalBottomSheet<ReminderTime?>(
         context: context,
         isScrollControlled: true,
-        builder: (BuildContext context) => const AlarmAddSheet(),
+        builder: (BuildContext context) => const ReminderAddSheet(),
         backgroundColor: Colors.transparent,
       );
 
@@ -56,8 +56,8 @@ class AlarmAddSheet extends StatelessWidget {
     final bool use24Format = MediaQuery.of(context).alwaysUse24HourFormat;
     final AppColor color = context.read<ThemeBloc>().state.color;
 
-    return BlocProvider<AlarmAddCubit>(
-      create: (_) => AlarmAddCubit(use24Format: use24Format),
+    return BlocProvider<ReminderAddCubit>(
+      create: (_) => ReminderAddCubit(use24Format: use24Format),
       child: Container(
         width: double.infinity,
         height: MediaQuery.of(context).size.height - kToolbarHeight,
@@ -80,16 +80,16 @@ class AlarmAddSheet extends StatelessWidget {
                 ),
                 const Expanded(
                   child: RemUIText(
-                    'Add Alarm',
+                    'Add Reminder',
                     textAlign: .center,
                     fontWeight: .w600,
                     fontSize: 16,
                   ),
                 ),
-                BlocBuilder<AlarmAddCubit, AlarmAddState>(
-                  builder: (_, AlarmAddState state) => _actionButton(
+                BlocBuilder<ReminderAddCubit, ReminderAddState>(
+                  builder: (_, ReminderAddState state) => _actionButton(
                     icon: Icons.check,
-                    onTap: () => Navigator.pop(context, state.alarmTime),
+                    onTap: () => Navigator.pop(context, state.reminderTime),
                     backgroundColor: color.primary,
                     iconColor: color.primarySoft,
                   ),
@@ -97,65 +97,72 @@ class AlarmAddSheet extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 24),
-            BlocBuilder<AlarmAddCubit, AlarmAddState>(
-              builder: (BuildContext context, AlarmAddState state) => SizedBox(
-                height: 156,
-                child: Stack(
-                  fit: .expand,
-                  children: <Widget>[
-                    Row(
-                      spacing: 8,
+            BlocBuilder<ReminderAddCubit, ReminderAddState>(
+              builder: (BuildContext context, ReminderAddState state) =>
+                  SizedBox(
+                    height: 156,
+                    child: Stack(
+                      fit: .expand,
                       children: <Widget>[
-                        _picker(
-                          color: color,
-                          itemCount: use24Format ? 24 : 12,
-                          initialIndex: state.hourPickerIndex,
-                          alignment: .centerRight,
-                          offAxisFraction: -.5,
-                          labelBuilder: (int i) => (use24Format ? i : i + 1)
-                              .toString()
-                              .padLeft(2, '0'),
-                          onChanged: context
-                              .read<AlarmAddCubit>()
-                              .setHourFromPicker,
+                        Row(
+                          spacing: 8,
+                          children: <Widget>[
+                            _picker(
+                              color: color,
+                              itemCount: use24Format ? 24 : 12,
+                              initialIndex: state.hourPickerIndex,
+                              alignment: .centerRight,
+                              offAxisFraction: -.5,
+                              labelBuilder: (int i) => (use24Format ? i : i + 1)
+                                  .toString()
+                                  .padLeft(2, '0'),
+                              onChanged: context
+                                  .read<ReminderAddCubit>()
+                                  .setHourFromPicker,
+                            ),
+                            _picker(
+                              color: color,
+                              alignment: use24Format ? .centerLeft : .center,
+                              offAxisFraction: use24Format ? .5 : 0,
+                              itemCount: 60,
+                              initialIndex: state.minutePickerIndex,
+                              labelBuilder: (int i) =>
+                                  i.toString().padLeft(2, '0'),
+                              onChanged: context
+                                  .read<ReminderAddCubit>()
+                                  .setMinute,
+                            ),
+                            if (!use24Format)
+                              _picker(
+                                color: color,
+                                alignment: .centerLeft,
+                                offAxisFraction: .5,
+                                itemCount: 2,
+                                initialIndex: state.amPmIndex,
+                                labelBuilder: (int i) =>
+                                    <String>['AM', 'PM'][i],
+                                looping: false,
+                                onChanged: context
+                                    .read<ReminderAddCubit>()
+                                    .setAmPm,
+                              ),
+                          ],
                         ),
-                        _picker(
-                          color: color,
-                          alignment: use24Format ? .centerLeft : .center,
-                          offAxisFraction: use24Format ? .5 : 0,
-                          itemCount: 60,
-                          initialIndex: state.minutePickerIndex,
-                          labelBuilder: (int i) => i.toString().padLeft(2, '0'),
-                          onChanged: context.read<AlarmAddCubit>().setMinute,
-                        ),
-                        if (!use24Format)
-                          _picker(
-                            color: color,
-                            alignment: .centerLeft,
-                            offAxisFraction: .5,
-                            itemCount: 2,
-                            initialIndex: state.amPmIndex,
-                            labelBuilder: (int i) => <String>['AM', 'PM'][i],
-                            looping: false,
-                            onChanged: context.read<AlarmAddCubit>().setAmPm,
+                        Align(
+                          child: IgnorePointer(
+                            child: Container(
+                              width: .infinity,
+                              height: 28,
+                              decoration: BoxDecoration(
+                                color: color.greyS3A5.value,
+                                borderRadius: .circular(12),
+                              ),
+                            ),
                           ),
+                        ),
                       ],
                     ),
-                    Align(
-                      child: IgnorePointer(
-                        child: Container(
-                          width: .infinity,
-                          height: 28,
-                          decoration: BoxDecoration(
-                            color: color.greyS3A5.value,
-                            borderRadius: .circular(12),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+                  ),
             ),
             const SizedBox(height: 24),
             Container(

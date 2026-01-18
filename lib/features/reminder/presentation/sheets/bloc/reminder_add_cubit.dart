@@ -1,14 +1,14 @@
 import 'package:equatable/equatable.dart' show Equatable;
 import 'package:flutter_bloc/flutter_bloc.dart' show Cubit;
-import 'package:reminder/features/alarm/domain/entities/alarm_time.dart'
-    show AlarmTime;
+import 'package:reminder/features/reminder/domain/entities/reminder_time.dart'
+    show ReminderTime;
 
-part 'alarm_add_state.dart';
+part 'reminder_add_state.dart';
 
-class AlarmAddCubit extends Cubit<AlarmAddState> {
-  AlarmAddCubit({required bool use24Format})
+class ReminderAddCubit extends Cubit<ReminderAddState> {
+  ReminderAddCubit({required bool use24Format})
     : super(
-        AlarmAddState(
+        ReminderAddState(
           hour: DateTime.now().hour,
           minute: DateTime.now().minute,
           use24Format: use24Format,

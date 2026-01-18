@@ -17,10 +17,10 @@ import 'package:reminder/cores/hive/hive_box_registry.dart' show AppHiveBox;
 import 'package:reminder/cores/logger.dart' show AppLogger;
 import 'package:reminder/cores/themes/data/theme.hive_key.dart'
     show ThemeHiveKey;
-import 'package:reminder/features/alarm/data/alarm.hive_key.dart'
-    show AlarmHiveKey;
-import 'package:reminder/features/alarm/data/models/alarm_model.dart'
-    show AlarmModel, AlarmModelAdapter;
+import 'package:reminder/features/reminder/data/models/reminder_model.dart'
+    show ReminderModel, ReminderModelAdapter;
+import 'package:reminder/features/reminder/data/reminder.hive_key.dart'
+    show ReminderHiveKey;
 
 void main() {
   runZonedGuarded(
@@ -41,9 +41,9 @@ void main() {
       Bloc.observer = const AppBlocObserver();
       await Future.wait(<Future<void>>[
         AppHiveBox.create<dynamic>(ThemeHiveKey.box),
-        AppHiveBox.create<AlarmModel>(
-          AlarmHiveKey.box,
-          adapter: AlarmModelAdapter(),
+        AppHiveBox.create<ReminderModel>(
+          ReminderHiveKey.box,
+          adapter: ReminderModelAdapter(),
         ),
       ]);
 

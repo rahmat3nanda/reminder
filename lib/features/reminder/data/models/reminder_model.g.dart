@@ -1,22 +1,22 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'alarm_model.dart';
+part of 'reminder_model.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class AlarmModelAdapter extends TypeAdapter<AlarmModel> {
+class ReminderModelAdapter extends TypeAdapter<ReminderModel> {
   @override
   final int typeId = 1;
 
   @override
-  AlarmModel read(BinaryReader reader) {
+  ReminderModel read(BinaryReader reader) {
     final int numOfFields = reader.readByte();
     final Map<int, dynamic> fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return AlarmModel(
+    return ReminderModel(
       id: fields[0] as String,
       hour: fields[1] as int,
       minute: fields[2] as int,
@@ -28,7 +28,7 @@ class AlarmModelAdapter extends TypeAdapter<AlarmModel> {
   }
 
   @override
-  void write(BinaryWriter writer, AlarmModel obj) {
+  void write(BinaryWriter writer, ReminderModel obj) {
     writer
       ..writeByte(7)
       ..writeByte(0)
@@ -53,7 +53,7 @@ class AlarmModelAdapter extends TypeAdapter<AlarmModel> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is AlarmModelAdapter &&
+      other is ReminderModelAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

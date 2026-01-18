@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart' show BuildContext, MediaQuery;
-import 'package:reminder/features/alarm/domain/entities/alarm_time.dart'
-    show AlarmTime;
+import 'package:reminder/features/reminder/domain/entities/reminder_time.dart'
+    show ReminderTime;
 
-extension AlarmTimeString on AlarmTime {
+extension ReminderTimeString on ReminderTime {
   String display(BuildContext context) {
     final bool use24Format = MediaQuery.of(context).alwaysUse24HourFormat;
 

@@ -1,11 +1,11 @@
 import 'package:reminder/cores/hive/hive_key.dart' show IHiveKey;
 
-enum AlarmHiveKey with IHiveKey {
+enum ReminderHiveKey with IHiveKey {
   data('data');
 
-  const AlarmHiveKey(this.key);
+  const ReminderHiveKey(this.key);
 
-  static String box = 'alarms';
+  static String box = 'reminders';
 
   @override
   final String key;

@@ -1,11 +1,11 @@
 import 'package:equatable/equatable.dart' show Equatable;
-import 'package:reminder/features/alarm/domain/entities/alarm_time.dart'
-    show AlarmTime;
-import 'package:reminder/features/alarm/domain/enums/day.dart' show Day;
+import 'package:reminder/features/reminder/domain/entities/reminder_time.dart'
+    show ReminderTime;
+import 'package:reminder/features/reminder/domain/enums/day.dart' show Day;
 import 'package:uuid/uuid.dart' show Uuid;
 
-class Alarm extends Equatable {
-  const Alarm({
+class Reminder extends Equatable {
+  const Reminder({
     required this.id,
     required this.time,
     this.label,
@@ -14,12 +14,12 @@ class Alarm extends Equatable {
     this.enabled = true,
   });
 
-  factory Alarm.create({
-    required AlarmTime time,
+  factory Reminder.create({
+    required ReminderTime time,
     String? label,
     List<Day> repeatDays = const <Day>[],
     int? snoozeMinutes,
-  }) => Alarm(
+  }) => Reminder(
     id: const Uuid().v4(),
     time: time,
     label: label,
@@ -28,19 +28,19 @@ class Alarm extends Equatable {
   );
 
   final String id;
-  final AlarmTime time;
+  final ReminderTime time;
   final String? label;
   final List<Day> repeatDays;
   final int? snoozeMinutes;
   final bool enabled;
 
-  Alarm copyWith({
-    AlarmTime? time,
+  Reminder copyWith({
+    ReminderTime? time,
     String? label,
     List<Day>? repeatDays,
     int? snoozeMinutes,
     bool? enabled,
-  }) => Alarm(
+  }) => Reminder(
     id: id,
     time: time ?? this.time,
     label: label ?? this.label,

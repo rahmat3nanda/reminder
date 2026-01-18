@@ -1,4 +1,4 @@
-import 'package:reminder/features/alarm/domain/enums/day.dart' show Day;
+import 'package:reminder/features/reminder/domain/enums/day.dart' show Day;
 
 extension DayString on Day {
   String get name => switch (this) {

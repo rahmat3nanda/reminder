@@ -13,8 +13,8 @@ import 'package:reminder/cores/themes/data/theme.hive_key.dart'
 import 'package:reminder/cores/themes/domain/theme_mode_enum.dart'
     show AppThemeMode, AppThemeModeTools;
 import 'package:reminder/cores/themes/theme_builder.dart' show AppThemeBuilder;
-import 'package:reminder/features/alarm/presentation/pages/alarm_page.dart'
-    show AlarmPage;
+import 'package:reminder/features/reminder/presentation/pages/reminder_page.dart'
+    show ReminderPage;
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -39,7 +39,7 @@ class App extends StatelessWidget {
           themeMode: state.mode.value,
           theme: AppThemeBuilder.from(AppThemeMode.light),
           darkTheme: AppThemeBuilder.from(AppThemeMode.dark),
-          home: const AlarmPage(),
+          home: const ReminderPage(),
         ),
       ),
     ),
