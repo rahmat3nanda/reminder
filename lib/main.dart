@@ -21,6 +21,8 @@ import 'package:reminder/features/reminder/data/models/reminder_model.dart'
     show ReminderModel, ReminderModelAdapter;
 import 'package:reminder/features/reminder/data/reminder.hive_key.dart'
     show ReminderHiveKey;
+import 'package:reminder/features/reminder/data/services/local_notification_service.dart'
+    show LocalNotificationService;
 
 void main() {
   runZonedGuarded(
@@ -39,6 +41,7 @@ void main() {
       );
 
       Bloc.observer = const AppBlocObserver();
+      await LocalNotificationService.initialize();
       await Future.wait(<Future<void>>[
         AppHiveBox.create<dynamic>(ThemeHiveKey.box),
         AppHiveBox.create<ReminderModel>(
