@@ -47,10 +47,14 @@ import 'package:reminder/features/reminder/domain/entities/reminder.dart'
     show Reminder;
 import 'package:reminder/features/reminder/presentation/extensions/day_string.dart'
     show DaysString;
+import 'package:reminder/features/reminder/presentation/extensions/sound_string.dart'
+    show SoundString;
 import 'package:reminder/features/reminder/presentation/sheets/bloc/reminder_form_cubit.dart'
     show ReminderFormCubit, ReminderFormState;
 import 'package:reminder/features/reminder/presentation/sheets/reminder_repeat_sheet.dart'
     show ReminderRepeatSheet;
+import 'package:reminder/features/reminder/presentation/sheets/reminder_sound_sheet.dart'
+    show ReminderSoundSheet;
 import 'package:reminder/shared/widgets.dart' show RemUIText;
 
 class ReminderFormSheet extends StatelessWidget {
@@ -230,8 +234,18 @@ class ReminderFormSheet extends StatelessWidget {
                             ),
                           ),
                           _divider(color),
-                          // _field(title: 'Sound'),
-                          // _divider(color),
+                          _field(
+                            title: 'Sound',
+                            value: RemUIText(
+                              s.sound.display,
+                              textAlign: .right,
+                            ),
+                            onTap: () => ReminderSoundSheet.show(
+                              context,
+                              cubit: context.read<ReminderFormCubit>(),
+                            ),
+                          ),
+                          _divider(color),
                           _field(
                             title: 'Snooze',
                             value: Align(

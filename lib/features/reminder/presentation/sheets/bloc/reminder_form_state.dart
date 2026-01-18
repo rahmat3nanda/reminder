@@ -7,6 +7,7 @@ class ReminderFormState extends Equatable {
     required this.use24Format,
     required this.repeatDays,
     required this.label,
+    required this.sound,
     required this.snooze,
     required this.snoozeExpand,
     required this.snoozeMinutes,
@@ -20,6 +21,7 @@ class ReminderFormState extends Equatable {
   final bool use24Format;
   final List<Day> repeatDays;
   final String? label;
+  final Sound sound;
   final bool snooze;
   final bool snoozeExpand;
   final int? snoozeMinutes;
@@ -44,6 +46,7 @@ class ReminderFormState extends Equatable {
         Reminder.create(
           time: ReminderTime(hour: hour, minute: minute),
           label: label,
+          sound: sound,
           repeatDays: repeatDays,
           snoozeMinutes: snoozeMinutes,
         );
@@ -51,6 +54,7 @@ class ReminderFormState extends Equatable {
     return base.copyWith(
       time: ReminderTime(hour: hour, minute: minute),
       label: label,
+      sound: sound,
       repeatDays: repeatDays,
       snoozeMinutes: snoozeMinutes,
       enabled: enabled,
@@ -64,6 +68,7 @@ class ReminderFormState extends Equatable {
     bool? use24Format,
     List<Day>? repeatDays,
     String? label,
+    Sound? sound,
     bool? snooze,
     bool? snoozeExpand,
     int? snoozeMinutes,
@@ -75,6 +80,7 @@ class ReminderFormState extends Equatable {
     use24Format: use24Format ?? this.use24Format,
     repeatDays: repeatDays ?? this.repeatDays,
     label: label ?? this.label,
+    sound: sound ?? this.sound,
     snooze: snooze ?? this.snooze,
     snoozeExpand: snoozeExpand ?? this.snoozeExpand,
     snoozeMinutes: snoozeMinutes ?? this.snoozeMinutes,
@@ -89,6 +95,7 @@ class ReminderFormState extends Equatable {
     use24Format,
     repeatDays,
     label,
+    sound,
     snooze,
     snoozeExpand,
     snoozeMinutes,

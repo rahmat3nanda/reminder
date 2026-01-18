@@ -5,6 +5,7 @@ import 'package:reminder/features/reminder/domain/entities/reminder.dart'
 import 'package:reminder/features/reminder/domain/entities/reminder_time.dart'
     show ReminderTime;
 import 'package:reminder/features/reminder/domain/enums/day.dart' show Day;
+import 'package:reminder/features/reminder/domain/enums/sound.dart' show Sound;
 
 part 'reminder_form_state.dart';
 
@@ -18,6 +19,7 @@ class ReminderFormCubit extends Cubit<ReminderFormState> {
           use24Format: use24Format,
           repeatDays: initial?.repeatDays ?? const <Day>[],
           label: initial?.label,
+          sound: initial?.sound ?? Sound.none,
           snooze: initial?.snoozeMinutes != null,
           snoozeExpand: false,
           snoozeMinutes: initial?.snoozeMinutes,
@@ -62,6 +64,8 @@ class ReminderFormCubit extends Cubit<ReminderFormState> {
   }
 
   void setLabel(String label) => emit(state.copyWith(label: label));
+
+  void setSound(Sound sound) => emit(state.copyWith(sound: sound));
 
   void toggleSnooze() {
     emit(
