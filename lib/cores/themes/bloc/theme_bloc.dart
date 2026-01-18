@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart' show Equatable;
 import 'package:flutter_bloc/flutter_bloc.dart' show Bloc, Emitter;
 import 'package:reminder/cores/colors/color.dart' show AppColor;
-import 'package:reminder/cores/themes/data/datasources/theme_local_datasource_interface.dart'
-    show IThemeLocalDataSource;
+import 'package:reminder/cores/themes/data/datasources/theme_datasource.dart'
+    show ThemeDatasource;
 import 'package:reminder/cores/themes/domain/theme_mode_enum.dart'
     show AppThemeMode, AppThemeModeTools;
 
@@ -15,7 +15,7 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
     on<ToggleTheme>(_onToggleTheme);
   }
 
-  final IThemeLocalDataSource local;
+  final ThemeDatasource local;
 
   Future<void> _onLoadTheme(LoadTheme event, Emitter<ThemeState> emit) async {
     final AppThemeMode? savedTheme = await local.get();

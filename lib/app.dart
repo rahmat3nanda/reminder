@@ -8,7 +8,7 @@ import 'package:reminder/cores/hive/hive_box_registry.dart' show AppHiveBox;
 import 'package:reminder/cores/themes/bloc/theme_bloc.dart'
     show LoadTheme, ThemeBloc, ThemeState;
 import 'package:reminder/cores/themes/data/datasources/theme_local_datasource.dart'
-    show ThemeLocalDataSource;
+    show ThemeLocalDatasource;
 import 'package:reminder/cores/themes/data/theme.hive_key.dart'
     show ThemeHiveKey;
 import 'package:reminder/cores/themes/domain/theme_mode_enum.dart'
@@ -23,7 +23,7 @@ class App extends StatelessWidget {
   @override
   Widget build(_) => BlocProvider<ThemeBloc>(
     create: (_) =>
-        ThemeBloc(ThemeLocalDataSource(AppHiveBox(ThemeHiveKey.box).box))
+        ThemeBloc(ThemeLocalDatasource(AppHiveBox(ThemeHiveKey.box).box))
           ..add(const LoadTheme()),
     child: BlocBuilder<ThemeBloc, ThemeState>(
       builder: (_, ThemeState state) => AnnotatedRegion<SystemUiOverlayStyle>(
